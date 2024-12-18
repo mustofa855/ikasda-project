@@ -58,6 +58,33 @@
             Laporan Keuangan
           </router-link>
         </li>
+        <li>
+          <router-link 
+            to="/direksi/keputusan-bpa" 
+            :class="isActive('/direksi/keputusan-bpa')"
+            class="block px-4 py-2 hover:bg-gray-700 transition"
+          >
+            Keputusan BPA
+          </router-link>
+        </li>
+        <li>
+          <router-link 
+            to="/direksi/strategic-decision" 
+            :class="isActive('/direksi/strategic-decision')"
+            class="block px-4 py-2 hover:bg-gray-700 transition"
+          >
+            Keputusan Strategis
+          </router-link>
+        </li>
+        <li>
+          <router-link 
+            to="/direksi/strategic-reports" 
+            :class="isActive('/direksi/strategic-reports')"
+            class="block px-4 py-2 hover:bg-gray-700 transition"
+          >
+            Laporan Strategis
+          </router-link>
+        </li>
       </ul>
     </aside>
   </template>
