@@ -1,5 +1,5 @@
 <template>
-    <div class="p-6">
+    <div class="ml-64 p-6">
       <h2 class="text-xl font-bold mb-4">Manajemen Konten</h2>
   
       <!-- Form untuk menambahkan konten -->
