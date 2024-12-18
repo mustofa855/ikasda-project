@@ -60,7 +60,7 @@
   
       <!-- Footer -->
       <footer class="bg-ikasda-primary text-white py-6 text-center">
-        <p>© 2024 Ikatan Alumni SMA Kita. All rights reserved.</p>
+        <p>© 2024 Ikatan Alumni SMA NEGERI 2 LEMBANG. All rights reserved.</p>
       </footer>
     </div>
   </template>

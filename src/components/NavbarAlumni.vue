@@ -3,13 +3,18 @@
       <div class="container mx-auto flex justify-between items-center">
         <!-- Logo -->
         <div class="text-lg font-bold">
-          <router-link to="/alumni" :class="isActive('/alumni')">
+          <router-link to="/alumni">
             Ikatan Alumni
           </router-link>
         </div>
   
         <!-- Menu Items -->
         <ul class="flex space-x-6">
+          <li>
+            <router-link to="/alumni" :class="isActive('/alumni')">
+              Dashboard
+            </router-link>
+          </li>
           <li>
             <router-link to="/alumni/profile-alumni" :class="isActive('/alumni/profile-alumni')">
               Profil Alumni
@@ -33,6 +38,11 @@
           <li>
             <router-link to="/alumni/forum-diskusi" :class="isActive('/alumni/forum-diskusi')">
               Forum Diskusi
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/alumni/daftar-alumni" :class="isActive('/alumni/daftar-alumni')">
+              Alumni
             </router-link>
           </li>
         </ul>

@@ -6,8 +6,8 @@
       <ul class="mt-6">
         <li>
           <router-link 
-            to="/direksi/" 
-            :class="isActive('/direksi/')"
+            to="/direksi" 
+            :class="isActive('/direksi')"
             class="block px-4 py-2 hover:bg-gray-700 transition"
           >
             Dashboard

@@ -30,6 +30,8 @@ import ActivityAudit from '@/views/bpa/ActivityAudit.vue';
 import AuditReports from '@/views/bpa/AuditReports.vue';
 import PengawasanEvent from '@/views/bpa/PengawasanEvent.vue';
 import EventBpa from '@/views/bpa/EventBpa.vue';
+import RegistrationView from '@/views/RegistrationView.vue';
+import AlumniView from '@/views/alumni/AlumniView.vue';
 
 // Definisikan routes
 const routes = [
@@ -40,6 +42,7 @@ const routes = [
   { path: '/events', component: EventView, meta: { layout: 'umum' } },
   { path: '/gallery', component: GalleryView, meta: { layout: 'umum' } },
   { path: '/login', component: LoginView, meta: { layout: 'umum' } },
+  { path: '/register', component: RegistrationView, meta: { layout: 'umum' } },
 
   // Halaman alumni
   { path: '/alumni', component: DashboardAlumni, meta: { layout: 'alumni' } },
@@ -48,6 +51,7 @@ const routes = [
   { path: '/alumni/kesan-pesan', component: KesanPesan, meta: { layout: 'alumni' } },
   { path: '/alumni/donasi', component: DonasiView, meta: { layout: 'alumni' } },
   { path: '/alumni/forum-diskusi', component: ForumDiskusi, meta: { layout: 'alumni' } },
+  { path: '/alumni/daftar-alumni', component: AlumniView, meta: { layout: 'alumni' } },
 
   // Halaman direksi
   { path: '/direksi', component: DashboardDireksi, meta: { layout: 'direksi' } },
