@@ -25,6 +25,12 @@ import BPADecision from '@/views/direksi/BPADecision.vue';
 import StrategicDecision from '@/views/direksi/StrategicDecision.vue';
 import StrategicReports from '@/views/direksi/StrategicReports.vue';
 
+import DashboardBpa from '@/views/bpa/DashboardBpa.vue';
+import ActivityAudit from '@/views/bpa/ActivityAudit.vue';
+import AuditReports from '@/views/bpa/AuditReports.vue';
+import PengawasanEvent from '@/views/bpa/PengawasanEvent.vue';
+import EventBpa from '@/views/bpa/EventBpa.vue';
+
 // Definisikan routes
 const routes = [
   // Halaman umum
@@ -53,6 +59,13 @@ const routes = [
   { path: '/direksi/keputusan-bpa', component: BPADecision, meta: { layout: 'direksi' } },
   { path: '/direksi/strategic-decision', component: StrategicDecision, meta: { layout: 'direksi' } },
   { path: '/direksi/strategic-reports', component: StrategicReports, meta: { layout: 'direksi' } },
+
+  // Halaman alumni
+  { path: '/bpa', component: DashboardBpa, meta: { layout: 'bpa' } },
+  { path: '/bpa/activity-audit', component: ActivityAudit, meta: { layout: 'bpa' } },
+  { path: '/bpa/audit-reports', component: AuditReports, meta: { layout: 'bpa' } },
+  { path: '/bpa/pengawasan-event', component: PengawasanEvent, meta: { layout: 'bpa' } },
+  { path: '/bpa/event-bpa', component: EventBpa, meta: { layout: 'bpa' } },
 ];
 
 // Buat router

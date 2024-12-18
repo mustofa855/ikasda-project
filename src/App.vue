@@ -4,6 +4,7 @@
     <AppNavbar v-if="currentLayout === 'umum'" />
     <NavbarAlumni v-else-if="currentLayout === 'alumni'" />
     <AppSidebar v-else-if="currentLayout === 'direksi'" />
+    <BpaSidebar v-else-if="currentLayout === 'bpa'" />
 
     <!-- Konten Halaman -->
     <router-view />
@@ -18,6 +19,7 @@ import { computed } from 'vue';
 import AppNavbar from '@/components/AppNavbar.vue';
 import NavbarAlumni from '@/components/NavbarAlumni.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
+import BpaSidebar from '@/components/BpaSidebar.vue';
 
 const route = useRoute();
 
