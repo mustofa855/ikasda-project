@@ -18,6 +18,9 @@ import DashboardDireksi from '@/views/direksi/DashboardDireksi.vue';
 import AlumniManagement from '@/views/direksi/AlumniManagement.vue';
 import EventManagement from '@/views/direksi/EventManagement.vue';
 import KesanPesan from '@/views/alumni/KesanPesan.vue';
+import DashboardStatistic from '@/views/direksi/DashboardStatistic.vue';
+import FinancialReports from '@/views/direksi/FinancialReports.vue';
+import ContentManagement from '@/views/direksi/ContentManagement.vue';
 
 // Definisikan routes
 const routes = [
@@ -41,6 +44,9 @@ const routes = [
   { path: '/direksi', component: DashboardDireksi, meta: { layout: 'direksi' } },
   { path: '/direksi/alumni-management', component: AlumniManagement, meta: { layout: 'direksi' } },
   { path: '/direksi/event-management', component: EventManagement, meta: { layout: 'direksi' } },
+  { path: '/direksi/content-management', component: ContentManagement, meta: { layout: 'direksi' } },
+  { path: '/direksi/financial-reports', component: FinancialReports, meta: { layout: 'direksi' } },
+  { path: '/direksi/dashboard-statistic', component: DashboardStatistic, meta: { layout: 'direksi' } },
 ];
 
 // Buat router
