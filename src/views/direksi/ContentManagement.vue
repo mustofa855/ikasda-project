@@ -1,88 +1,151 @@
 <template>
-    <div class="ml-64 p-6">
-      <h2 class="text-xl font-bold mb-4">Manajemen Konten</h2>
-  
-      <!-- Form untuk menambahkan konten -->
-      <form @submit.prevent="addContent">
+  <!-- Tambahkan kelas ml-64 untuk memberikan margin kiri sebesar lebar sidebar -->
+  <div class="ml-64 p-6">
+    <div class="bg-white shadow rounded p-6">
+      <h2 class="text-2xl font-bold mb-4">Buat Berita Baru</h2>
+      <form @submit.prevent="createNews">
+        <!-- Judul Berita -->
         <div class="mb-4">
-          <label for="title" class="block text-sm font-medium text-gray-700">Judul</label>
+          <label for="title" class="block text-gray-700">Judul Berita</label>
           <input
             type="text"
             id="title"
-            v-model="newContent.title"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            v-model="form.title"
+            placeholder="Masukkan judul berita"
+            class="w-full border border-gray-300 p-2 rounded"
+            required
           />
         </div>
-  
+        <!-- Ringkasan (Excerpt) -->
         <div class="mb-4">
-          <label for="type" class="block text-sm font-medium text-gray-700">Jenis Konten</label>
-          <select
-            id="type"
-            v-model="newContent.type"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          >
-            <option value="Berita">Berita</option>
-            <option value="Galeri">Galeri</option>
-            <option value="Pengumuman">Pengumuman</option>
-          </select>
-        </div>
-  
-        <div class="mb-4">
-          <label for="content" class="block text-sm font-medium text-gray-700">Konten</label>
+          <label for="excerpt" class="block text-gray-700">Ringkasan</label>
           <textarea
-            id="content"
-            v-model="newContent.content"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            rows="4"
+            id="excerpt"
+            v-model="form.excerpt"
+            placeholder="Tuliskan ringkasan berita (contoh: IKASDA PEDULI - ikasda mengadakan kegiatan amal di daerah Cisarua...)"
+            class="w-full border border-gray-300 p-2 rounded"
+            rows="3"
           ></textarea>
         </div>
-  
+        <!-- Konten Berita -->
+        <div class="mb-4">
+          <label for="content" class="block text-gray-700">Konten Berita</label>
+          <textarea
+            id="content"
+            v-model="form.content"
+            placeholder="Masukkan konten berita lengkap..."
+            class="w-full border border-gray-300 p-2 rounded"
+            rows="6"
+            required
+          ></textarea>
+        </div>
+        <!-- Kategori -->
+        <div class="mb-4">
+          <label for="category" class="block text-gray-700">Kategori</label>
+          <input
+            type="text"
+            id="category"
+            v-model="form.category"
+            placeholder="cth: Kegiatan Sosial"
+            class="w-full border border-gray-300 p-2 rounded"
+            required
+          />
+        </div>
+        <!-- Unggah Gambar -->
+        <div class="mb-4">
+          <label for="image" class="block text-gray-700">Gambar Berita</label>
+          <input
+            type="file"
+            id="image"
+            @change="handleImageUpload"
+            class="w-full"
+            accept="image/*"
+          />
+        </div>
+        <!-- Tombol Submit -->
         <button
           type="submit"
-          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
         >
-          Tambahkan Konten
+          Buat Berita
         </button>
       </form>
-  
-      <!-- Daftar konten -->
-      <div class="mt-8">
-        <h3 class="text-lg font-medium">Daftar Konten</h3>
-        <ul>
-          <li v-for="content in contents" :key="content.id" class="mb-2">
-            <h4 class="font-semibold">{{ content.title }}</h4>
-            <p class="text-sm text-gray-600">{{ content.type }}</p>
-            <p>{{ content.content }}</p>
-            <button
-              class="text-red-600 hover:underline"
-              @click="deleteContent(content.id)"
-            >
-              Hapus
-            </button>
-          </li>
-        </ul>
-      </div>
     </div>
-  </template>
-  
-  <script setup>
-  import { ref } from 'vue';
-  
-  const contents = ref([]);
-  const newContent = ref({
-    title: '',
-    type: 'Berita',
-    content: '',
-  });
-  
-  const addContent = () => {
-    const id = Date.now();
-    contents.value.push({ id, ...newContent.value });
-    newContent.value = { title: '', type: 'Berita', content: '' };
-  };
-  
-  const deleteContent = (id) => {
-    contents.value = contents.value.filter((content) => content.id !== id);
-  };
-  </script>
-  
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+import Swal from 'sweetalert2';
+
+export default {
+  name: "ManajemenBerita",
+  data() {
+    return {
+      form: {
+        title: "",
+        excerpt: "",
+        content: "",
+        category: "",
+        image: null
+      }
+    };
+  },
+  methods: {
+    handleImageUpload(event) {
+      // Simpan file gambar yang diupload ke properti form.image
+      this.form.image = event.target.files[0];
+    },
+    async createNews() {
+      // Tampilkan konfirmasi menggunakan SweetAlert2
+      const result = await Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: 'Pastikan data yang Anda masukkan sudah benar!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, buat berita',
+        cancelButtonText: 'Periksa lagi'
+      });
+      
+      if (!result.isConfirmed) return;
+
+      // Buat FormData untuk mendukung file upload
+      const formData = new FormData();
+      formData.append('title', this.form.title);
+      formData.append('excerpt', this.form.excerpt);
+      formData.append('content', this.form.content);
+      formData.append('category', this.form.category);
+      if (this.form.image) {
+        formData.append('image', this.form.image);
+      }
+      
+      try {
+        const token = localStorage.getItem("access_token");
+        // Post data ke endpoint berita
+        await axios.post("http://127.0.0.1:8000/api/news/", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "Authorization": `Bearer ${token}`
+          }
+        });
+        Swal.fire("Berhasil!", "Berita telah dibuat.", "success");
+        // Reset form (opsional)
+        this.form.title = "";
+        this.form.excerpt = "";
+        this.form.content = "";
+        this.form.category = "";
+        this.form.image = null;
+      } catch (error) {
+        Swal.fire("Gagal!", "Terjadi kesalahan saat membuat berita.", "error");
+        console.error("Error creating news:", error);
+      }
+    }
+  }
+};
+</script>
+
+<style scoped>
+/* Styling tambahan jika diperlukan */
+</style>

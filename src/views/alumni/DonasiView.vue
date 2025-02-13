@@ -1,88 +1,253 @@
 <template>
-    <div class="container mx-auto my-8 p-6 bg-white shadow-lg rounded-lg">
-      <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">
-        Donasi Alumni
-      </h1>
-  
-      <!-- Form Donasi -->
-      <form @submit.prevent="submitDonation">
+  <div class="mx-16 my-8 p-6 bg-white shadow-lg rounded-lg">
+    <!-- Header -->
+    <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">
+      Fitur Donasi
+    </h1>
+
+    <!-- Form Donasi -->
+    <div class="mb-10 border-b pb-6">
+      <h2 class="text-2xl font-semibold mb-4">Buat Donasi</h2>
+      <form @submit.prevent="createDonation">
         <div class="mb-4">
-          <label for="nama" class="block text-sm font-medium text-gray-700"
-            >Nama</label
-          >
+          <label for="donorName" class="block text-sm font-medium text-gray-700">
+            Nama
+          </label>
           <input
-            v-model="form.nama"
+            v-model="newDonation.name"
+            id="donorName"
             type="text"
-            id="nama"
+            class="mt-1 block w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
             placeholder="Masukkan nama Anda"
-            class="mt-1 block w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
             required
           />
         </div>
-  
         <div class="mb-4">
-          <label for="jumlah" class="block text-sm font-medium text-gray-700"
-            >Jumlah Donasi (Rp)</label
-          >
+          <label for="donorEmail" class="block text-sm font-medium text-gray-700">
+            Email
+          </label>
           <input
-            v-model.number="form.jumlah"
-            type="number"
-            id="jumlah"
-            placeholder="Contoh: 50000"
+            v-model="newDonation.email"
+            id="donorEmail"
+            type="email"
             class="mt-1 block w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Masukkan email Anda"
             required
           />
         </div>
-  
-        <!-- Tombol Donasi -->
-        <div class="mt-4">
-          <button
-            type="submit"
-            class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300"
-          >
-            Donasi Sekarang
-          </button>
+        <div class="mb-4">
+          <label for="donationAmount" class="block text-sm font-medium text-gray-700">
+            Nominal Donasi
+          </label>
+          <input
+            v-model.number="newDonation.amount"
+            id="donationAmount"
+            type="number"
+            class="mt-1 block w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Masukkan nominal donasi (Rp)"
+            required
+          />
         </div>
+        <div class="mb-4">
+          <label for="donationMessage" class="block text-sm font-medium text-gray-700">
+            Pesan (opsional)
+          </label>
+          <textarea
+            v-model="newDonation.message"
+            id="donationMessage"
+            rows="3"
+            class="mt-1 block w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Tulis pesan untuk donasi Anda (opsional)"
+          ></textarea>
+        </div>
+        <!-- Upload Bukti Donasi -->
+        <div class="mb-4">
+          <label for="donationProof" class="block text-sm font-medium text-gray-700">
+            Upload Bukti Donasi
+          </label>
+          <input
+            @change="handleFileUpload"
+            id="donationProof"
+            type="file"
+            class="mt-1 block w-full border border-gray-300 rounded-md"
+          />
+        </div>
+        <!-- QR/QRIS Pembayaran -->
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700">
+            QR / QRIS Pembayaran
+          </label>
+          <!-- Menggunakan qrcode.vue untuk menghasilkan QR Code secara dinamis -->
+          <qrcode-vue :value="qrValue" :size="200" class="mt-2" />
+        </div>
+        <button
+          type="submit"
+          class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300"
+        >
+          Kirim Donasi
+        </button>
       </form>
-  
-      <!-- Riwayat Donasi -->
-      <div class="mt-8">
-        <h2 class="text-lg font-semibold mb-4">Riwayat Donasi</h2>
-        <ul>
+    </div>
+
+    <!-- Daftar Donasi -->
+    <div>
+      <h2 class="text-2xl font-semibold mb-6">Donasi Terbaru</h2>
+      <div v-if="loading" class="text-center text-gray-600">Loading...</div>
+      <div v-else>
+        <ul class="space-y-4">
           <li
-            v-for="(donation, index) in donations"
-            :key="index"
-            class="mb-2 p-4 bg-gray-100 rounded-lg"
+            v-for="donation in donations"
+            :key="donation.id"
+            class="p-4 border rounded-lg bg-gray-50"
           >
-            {{ donation.nama }} - Rp {{ donation.jumlah.toLocaleString() }}
+            <div class="flex justify-between items-center">
+              <h3 class="text-lg font-bold text-gray-800">
+                {{ donation.name }}
+              </h3>
+              <span class="text-green-600 font-semibold">
+                Rp {{ donation.amount }}
+              </span>
+            </div>
+            <p class="text-sm text-gray-500">{{ donation.email }}</p>
+            <p v-if="donation.message" class="mt-2 text-gray-700">
+              Pesan: {{ donation.message }}
+            </p>
+            <!-- Jika ada bukti donasi yang diupload, tampilkan link atau preview -->
+            <div v-if="donation.proof_url" class="mt-2">
+              <a :href="donation.proof_url" target="_blank" class="text-blue-500 underline">
+                Lihat Bukti Donasi
+              </a>
+            </div>
+            <p class="text-xs text-gray-400 mt-1">
+              {{ formatDate(donation.created_at) }}
+            </p>
           </li>
         </ul>
       </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    name: "Donasi",
-    data() {
-      return {
-        form: {
-          nama: "",
-          jumlah: null,
-        },
-        donations: [],
-      };
-    },
-    methods: {
-      submitDonation() {
-        if (this.form.nama && this.form.jumlah > 0) {
-          this.donations.push({ ...this.form });
-          alert("Terima kasih atas donasi Anda!");
-          this.form.nama = "";
-          this.form.jumlah = null;
-        }
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+import QrcodeVue from "qrcode.vue"; // Import qrcode.vue
+
+export default {
+  name: "Donasi",
+  components: { QrcodeVue },
+  data() {
+    return {
+      newDonation: {
+        name: "",
+        email: "",
+        amount: null,
+        message: "",
+        proof: null, // properti untuk file bukti donasi
       },
+      donations: [],
+      loading: false,
+      // Nilai yang digunakan untuk menghasilkan QR Code (ubah sesuai kebutuhan)
+      qrValue: "https://example.com/donation-payment",
+    };
+  },
+  mounted() {
+    this.fetchDonations();
+  },
+  methods: {
+    // Format tanggal seperti "5 menit yang lalu" atau "23 Februari 2025"
+    formatDate(dateStr) {
+      if (!dateStr) return "";
+      const date = new Date(dateStr);
+      const now = new Date();
+      const diffMs = now - date;
+      const diffSeconds = Math.floor(diffMs / 1000);
+      if (diffSeconds < 60) {
+        return "baru saja";
+      }
+      const diffMinutes = Math.floor(diffSeconds / 60);
+      if (diffMinutes < 60) {
+        return `${diffMinutes} menit yang lalu`;
+      }
+      const diffHours = Math.floor(diffMinutes / 60);
+      if (diffHours < 24) {
+        return `${diffHours} jam yang lalu`;
+      }
+      const day = date.getDate();
+      const year = date.getFullYear();
+      const monthIndex = date.getMonth();
+      const months = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+      ];
+      const monthName = months[monthIndex];
+      return `${day} ${monthName} ${year}`;
     },
-  };
-  </script>
-  
+    // Mengambil data donasi dari backend
+    fetchDonations() {
+      this.loading = true;
+      axios
+        .get("http://127.0.0.1:8000/api/donations/")
+        .then((response) => {
+          this.donations = response.data;
+          this.loading = false;
+        })
+        .catch((error) => {
+          console.error("Error fetching donations:", error);
+          this.loading = false;
+        });
+    },
+    // Tangani upload file bukti donasi
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      this.newDonation.proof = file;
+    },
+    // Mengirim donasi ke backend menggunakan FormData untuk menyertakan file
+    createDonation() {
+      // Validasi input minimal
+      if (
+        !this.newDonation.name.trim() ||
+        !this.newDonation.email.trim() ||
+        !this.newDonation.amount
+      ) {
+        alert("Mohon lengkapi data donasi!");
+        return;
+      }
+      const formData = new FormData();
+      formData.append("name", this.newDonation.name);
+      formData.append("email", this.newDonation.email);
+      formData.append("amount", this.newDonation.amount);
+      formData.append("message", this.newDonation.message);
+      if (this.newDonation.proof) {
+        formData.append("proof", this.newDonation.proof);
+      }
+      axios
+        .post("http://127.0.0.1:8000/api/donations/", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          alert("Donasi berhasil dikirim!");
+          // Reset form donasi
+          this.newDonation = {
+            name: "",
+            email: "",
+            amount: null,
+            message: "",
+            proof: null,
+          };
+          // Refresh daftar donasi
+          this.fetchDonations();
+        })
+        .catch((error) => {
+          console.error("Error sending donation:", error);
+          alert("Gagal mengirim donasi. Silakan coba lagi.");
+        });
+    },
+  },
+};
+</script>
+
+<style scoped>
+/* Tambahkan style tambahan sesuai kebutuhan */
+</style>

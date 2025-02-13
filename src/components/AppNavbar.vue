@@ -16,7 +16,7 @@
                         <router-link to="/about" :class="isActive('/about')">About</router-link>
                     </li>
                     <li>
-                        <router-link to="/blog" :class="isActive('/blog')">Berita</router-link>
+                        <router-link to="/news" :class="isActive('/news')">Berita</router-link>
                     </li>
                     <li>
                         <router-link to="/events" :class="isActive('/events')">Events</router-link>

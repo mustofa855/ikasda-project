@@ -15,7 +15,7 @@
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 
-// Pastikan impor komponen ini benar
+// Impor komponen layout
 import AppNavbar from '@/components/AppNavbar.vue';
 import NavbarAlumni from '@/components/NavbarAlumni.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
@@ -23,7 +23,7 @@ import BpaSidebar from '@/components/BpaSidebar.vue';
 
 const route = useRoute();
 
-// Ambil layout berdasarkan meta di route
+// Ambil layout berdasarkan meta di route, fallback ke 'umum'
 const currentLayout = computed(() => route.meta.layout || 'umum');
 </script>
 
