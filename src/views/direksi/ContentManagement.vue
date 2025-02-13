@@ -1,5 +1,4 @@
 <template>
-  <!-- Tambahkan kelas ml-64 untuk memberikan margin kiri sebesar lebar sidebar -->
   <div class="ml-64 p-6">
     <div class="bg-white shadow rounded p-6">
       <h2 class="text-2xl font-bold mb-4">Buat Berita Baru</h2>
@@ -42,14 +41,24 @@
         <!-- Kategori -->
         <div class="mb-4">
           <label for="category" class="block text-gray-700">Kategori</label>
-          <input
-            type="text"
+          <select
             id="category"
             v-model="form.category"
-            placeholder="cth: Kegiatan Sosial"
             class="w-full border border-gray-300 p-2 rounded"
             required
-          />
+          >
+            <option value="" disabled>-- Pilih Kategori --</option>
+            <option value="Sport">Sport</option>
+            <option value="Sosial">Kegiatan Sosial</option>
+            <option value="Pendidikan">Pendidikan</option>
+            <option value="Hiburan">Hiburan</option>
+            <option value="Politik">Politik</option>
+            <option value="Ekonomi">Ekonomi</option>
+            <option value="Teknologi">Teknologi</option>
+            <option value="Kesehatan">Kesehatan</option>
+            <option value="Budaya">Budaya</option>
+            <option value="Otomotif">Otomotif</option>
+          </select>
         </div>
         <!-- Unggah Gambar -->
         <div class="mb-4">
@@ -123,7 +132,6 @@ export default {
       
       try {
         const token = localStorage.getItem("access_token");
-        // Post data ke endpoint berita
         await axios.post("http://127.0.0.1:8000/api/news/", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -147,5 +155,5 @@ export default {
 </script>
 
 <style scoped>
-/* Styling tambahan jika diperlukan */
+/* Tambahkan styling tambahan jika diperlukan */
 </style>
