@@ -1,5 +1,31 @@
 <template>
-  <div class="bg-gray-100">
+  <div class="bg-gray-100 relative">
+    <!-- Popup Pengumuman -->
+    <div
+      v-if="showPopup && announcement"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+    >
+      <div class="bg-white p-6 rounded shadow-lg relative max-w-md w-full">
+        <button
+          @click="closePopup"
+          class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl leading-none"
+        >
+          &times;
+        </button>
+        <h2 class="text-xl font-bold mb-2">Pengumuman</h2>
+        <div>
+          <h3 class="text-lg font-semibold">{{ announcement.title }}</h3>
+          <p class="mt-2">
+            {{
+              announcement.excerpt
+                ? announcement.excerpt
+                : announcement.content.substring(0, 150) + '...'
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+
     <!-- Hero Section -->
     <section class="bg-ikasda-primary text-white py-20 text-center">
       <h1 class="text-4xl font-bold mb-4">
@@ -22,18 +48,32 @@
     <section class="py-10 px-6">
       <h2 class="text-3xl font-semibold mb-6 text-center">Berita Terkini</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div v-for="(item, index) in berita" :key="item.id" class="bg-white shadow rounded p-4">
-          <img :src="item.image ? item.image : 'https://via.placeholder.com/400x300'" alt="Thumbnail Berita"
-            class="w-full h-48 object-cover mb-4 rounded" />
+        <div
+          v-for="(item, index) in nonAnnouncementBerita"
+          :key="item.id"
+          class="bg-white shadow rounded p-4"
+        >
+          <img
+            :src="item.image ? item.image : 'https://via.placeholder.com/400x300'"
+            alt="Thumbnail Berita"
+            class="w-full h-48 object-cover mb-4 rounded"
+          />
           <h3 class="text-xl font-bold mb-2">{{ item.title }}</h3>
           <p class="text-gray-700 mb-2">
-            {{ item.excerpt ? item.excerpt : item.content.substring(0, 100) + '...' }}
+            {{
+              item.excerpt
+                ? item.excerpt
+                : item.content.substring(0, 100) + '...'
+            }}
           </p>
-          <router-link :to="`/news/${item.id}`" class="text-blue-600 hover:underline font-semibold">
+          <router-link
+            :to="`/news/${item.id}`"
+            class="text-blue-600 hover:underline font-semibold"
+          >
             Baca Selengkapnya
           </router-link>
         </div>
-        <div v-if="berita.length === 0" class="col-span-full text-center text-gray-500">
+        <div v-if="nonAnnouncementBerita.length === 0" class="col-span-full text-center text-gray-500">
           Tidak ada berita untuk ditampilkan.
         </div>
       </div>
@@ -44,8 +84,13 @@
       <div class="max-w-7xl mx-auto">
         <h2 class="text-3xl font-semibold text-center mb-10">Event Mendatang</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <EventCard v-for="(event, index) in events" :key="event.id" :title="event.title"
-            :date="formatDate(event.start_date)" :location="event.location" />
+          <EventCard
+            v-for="(event, index) in events"
+            :key="event.id"
+            :title="event.title"
+            :date="formatDate(event.start_date)"
+            :location="event.location"
+          />
         </div>
       </div>
     </section>
@@ -109,11 +154,10 @@
       </div>
     </section>
 
-    <!-- Pesan Alumni Section (Dinamis, berganti tiap 30 detik dengan efek fade) -->
+    <!-- Pesan Alumni Section (Dinamis, berganti tiap 10 detik dengan efek fade) -->
     <section class="py-16 bg-white text-center">
       <h2 class="text-3xl font-semibold mb-6">Kesan dan Pesan Alumni (Dinamis)</h2>
       <div class="max-w-4xl mx-auto">
-        <!-- Bungkus pesan dengan transition. Key dibuat berdasarkan currentFeedbackIndex untuk trigger transisi -->
         <transition name="fade" mode="out-in">
           <div :key="currentFeedbackIndex">
             <blockquote class="text-lg italic text-gray-600">
@@ -126,7 +170,6 @@
         </transition>
       </div>
     </section>
-
 
     <!-- Footer -->
     <footer class="bg-ikasda-primary text-white py-6 text-center">
@@ -142,27 +185,35 @@ import EventCard from '@/components/EventCard.vue';
 
 const currentYear = ref(new Date().getFullYear());
 
-// Contoh pengambilan berita (sesuaikan dengan API Anda)
+// Data Berita dan Events
 const berita = ref([]);
+const events = ref([]);
+
+// Fungsi untuk mengambil berita
 function fetchBerita() {
-  axios.get("http://127.0.0.1:8000/api/news/")
+  return axios
+    .get("http://127.0.0.1:8000/api/news/")
     .then(response => {
-      // Misal API mengembalikan array berita
-      berita.value = response.data.slice(0, 3);
+      // Simpan seluruh data berita
+      berita.value = response.data;
     })
     .catch(error => {
       console.error("Error fetching news:", error);
     });
 }
 
-// Contoh pengambilan event
-const events = ref([]);
+// Fungsi untuk mengambil event mendatang
 function fetchEvents() {
-  axios.get("http://127.0.0.1:8000/api/events/")
+  return axios
+    .get("http://127.0.0.1:8000/api/events/")
     .then(response => {
       const now = new Date();
-      const upcomingEvents = response.data.filter(event => new Date(event.start_date) >= now);
-      upcomingEvents.sort((a, b) => new Date(a.start_date) - new Date(b.start_date));
+      const upcomingEvents = response.data.filter(
+        event => new Date(event.start_date) >= now
+      );
+      upcomingEvents.sort(
+        (a, b) => new Date(a.start_date) - new Date(b.start_date)
+      );
       events.value = upcomingEvents.slice(0, 3);
     })
     .catch(error => {
@@ -179,7 +230,8 @@ const currentFeedback = computed(() => {
 });
 
 function fetchFeedbacks() {
-  axios.get("http://127.0.0.1:8000/api/feedbacks/")
+  axios
+    .get("http://127.0.0.1:8000/api/feedbacks/")
     .then(response => {
       apiFeedbacks.value = response.data;
     })
@@ -188,33 +240,70 @@ function fetchFeedbacks() {
     });
 }
 
-let intervalId = null;
-onMounted(() => {
-  fetchBerita();
-  fetchEvents();
-  fetchFeedbacks();
-  intervalId = setInterval(() => {
-    if (apiFeedbacks.value.length > 0) {
-      currentFeedbackIndex.value = (currentFeedbackIndex.value + 1) % apiFeedbacks.value.length;
-    }
-  }, 10000); // Ganti pesan setiap 10 detik
-});
-onUnmounted(() => {
-  if (intervalId) clearInterval(intervalId);
-});
+// Popup Pengumuman
+const showPopup = ref(false);
+
+// Computed untuk filter berita dengan kategori "Pengumuman"
+const announcementNews = computed(() =>
+  berita.value.filter(item => item.category === "Pengumuman")
+);
+
+// Ambil pengumuman pertama (jika ada)
+const announcement = computed(() =>
+  announcementNews.value.length > 0 ? announcementNews.value[0] : null
+);
+
+// Computed untuk berita terkini tanpa kategori "Pengumuman" (dibatasi 3 item)
+const nonAnnouncementBerita = computed(() =>
+  berita.value.filter(item => item.category !== "Pengumuman").slice(0, 3)
+);
+
+function closePopup() {
+  showPopup.value = false;
+  localStorage.setItem("popupShown", "true");
+}
 
 function formatDate(dateStr) {
   const options = { year: "numeric", month: "short", day: "numeric" };
   return new Date(dateStr).toLocaleDateString(undefined, options);
 }
+
+let intervalId = null;
+onMounted(() => {
+  // Lakukan fetch data secara paralel
+  Promise.all([fetchBerita(), fetchEvents()]).then(() => {
+    // Tampilkan popup jika ada pengumuman, terdapat event mendatang,
+    // dan popup belum pernah ditutup sebelumnya
+    if (
+      announcementNews.value.length > 0 &&
+      events.value.length > 0 &&
+      !localStorage.getItem("popupShown")
+    ) {
+      showPopup.value = true;
+    }
+  });
+  fetchFeedbacks();
+  intervalId = setInterval(() => {
+    if (apiFeedbacks.value.length > 0) {
+      currentFeedbackIndex.value =
+        (currentFeedbackIndex.value + 1) % apiFeedbacks.value.length;
+    }
+  }, 10000); // Ganti pesan setiap 10 detik
+});
+
+onUnmounted(() => {
+  if (intervalId) clearInterval(intervalId);
+});
 </script>
 
 <style scoped>
-/* Tambahkan styling tambahan jika diperlukan */
-.fade-enter-active, .fade-leave-active {
+/* Transition untuk pesan alumni */
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.5s ease;
 }
-.fade-enter-from, .fade-leave-to {
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
 }
 </style>

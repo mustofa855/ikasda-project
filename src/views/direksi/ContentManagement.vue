@@ -48,6 +48,7 @@
             required
           >
             <option value="" disabled>-- Pilih Kategori --</option>
+            <option value="Pengumuman">Pengumuman</option>
             <option value="Sport">Sport</option>
             <option value="Sosial">Kegiatan Sosial</option>
             <option value="Pendidikan">Pendidikan</option>

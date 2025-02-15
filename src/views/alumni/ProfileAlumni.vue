@@ -1,5 +1,5 @@
 <template>
-  <div class="relative container mx-auto my-8 p-6 bg-white shadow-lg rounded-lg">
+  <div class="relative mx-64 my-8 p-6 bg-white shadow-lg rounded-lg">
     <!-- Ikon Edit di pojok kanan atas -->
     <div class="absolute top-4 right-4">
       <button @click="confirmEdit" class="text-gray-600 hover:text-gray-800">
