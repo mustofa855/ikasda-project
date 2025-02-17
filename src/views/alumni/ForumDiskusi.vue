@@ -81,9 +81,16 @@
                 :key="reply.id"
                 class="pl-4 border-l-4 border-blue-300 text-gray-600"
               >
-                <p class="text-sm font-medium">
-                  {{ reply.full_name }} • {{ formatDate(reply.created_at) }}
-                </p>
+                <div class="flex items-center gap-2 mb-1">
+                  <img
+                    v-if="reply.profile_photo"
+                    :src="reply.profile_photo"
+                    alt="Foto Profil"
+                    class="w-6 h-6 rounded-full object-cover"
+                  />
+                  <span class="text-sm font-medium">{{ reply.full_name }}</span>
+                  <span class="text-sm text-gray-500">• {{ formatDate(reply.created_at) }}</span>
+                </div>
                 <p class="text-gray-700">{{ reply.content }}</p>
               </li>
             </ul>

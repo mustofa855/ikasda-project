@@ -81,7 +81,6 @@
               type="number"
               id="graduation_year"
               v-model="form.graduation_year"
-
               class="w-full px-3 py-2 border rounded"
               required
             />
@@ -92,7 +91,6 @@
               type="text"
               id="education"
               v-model="form.education"
-
               class="w-full px-3 py-2 border rounded"
               required
             />
@@ -103,7 +101,6 @@
               type="text"
               id="job"
               v-model="form.job"
-
               class="w-full px-3 py-2 border rounded"
             />
           </div>
@@ -189,7 +186,9 @@ export default {
           axios
             .post("http://127.0.0.1:8000/api/register/", this.form)
             .then((response) => {
-              Swal.fire("Berhasil!", "Registrasi berhasil!", "success").then(() => {
+              // Ambil pesan dari response, jika tidak ada gunakan default message
+              const pesan = response.data.detail || "Registrasi berhasil! Akun Anda sedang menunggu verifikasi oleh direksi.";
+              Swal.fire("Berhasil!", pesan, "success").then(() => {
                 this.$router.push("/login");
               });
             })
@@ -209,5 +208,5 @@ export default {
 </script>
 
 <style scoped>
-/* Tambahkan styling jika diperlukan */
+/* Anda bisa menambahkan styling tambahan di sini jika diperlukan */
 </style>
