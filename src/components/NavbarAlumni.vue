@@ -22,6 +22,11 @@
           </router-link>
         </li>
         <li>
+          <router-link to="/alumni/news" :class="isActive('/alumni/news')">
+            Berita
+          </router-link>
+        </li>
+        <li>
           <router-link to="/alumni/donasi" :class="isActive('/alumni/donasi')">
             Donasi
           </router-link>

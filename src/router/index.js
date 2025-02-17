@@ -12,6 +12,7 @@ import LoginView from '@/views/LoginView.vue';
 import DashboardAlumni from '@/views/alumni/DashboardAlumni.vue';
 import ProfileAlumni from '@/views/alumni/ProfileAlumni.vue';
 import EventAlumni from '@/views/alumni/EventAlumni.vue';
+import NewsAlumni from '@/views/alumni/AlumniNews.vue';
 import AlumniEventRegistration from '@/views/alumni/AlumniEventRegistration.vue';
 import EventDetailView from '@/views/alumni/EventDetailView.vue';
 import DonasiView from '@/views/alumni/DonasiView.vue';
@@ -62,6 +63,11 @@ const routes = [
     meta: { requiresAuth: true, role: 'alumni', layout: 'alumni' }
   },
   { 
+    path: '/alumni/news', 
+    component: NewsAlumni, 
+    meta: { requiresAuth: true, role: 'alumni', layout: 'alumni' }
+  },
+  { 
     path: '/alumni/event-alumni', 
     component: EventAlumni, 
     meta: { requiresAuth: true, role: 'alumni', layout: 'alumni' }
@@ -106,7 +112,7 @@ const routes = [
   { path: '/direksi/strategic-decision', component: StrategicDecision, meta: { layout: 'direksi' } },
   { path: '/direksi/strategic-reports', component: StrategicReports, meta: { layout: 'direksi' } },
 
-  // Halaman alumni
+  // Halaman bpa
   { path: '/bpa', component: DashboardBpa, meta: { layout: 'bpa' } },
   { path: '/bpa/activity-audit', component: ActivityAudit, meta: { layout: 'bpa' } },
   { path: '/bpa/audit-reports', component: AuditReports, meta: { layout: 'bpa' } },
