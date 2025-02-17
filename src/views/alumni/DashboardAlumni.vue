@@ -51,6 +51,20 @@
             Lihat Event
           </router-link>
         </div>
+
+        <!-- Event Alumni -->
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">Berita Alumni</h2>
+          <p class="text-gray-600 mb-4">
+            Baca Berita dan tidak ketinggalan info terkait alumni.
+          </p>
+          <router-link
+            to="/alumni/news"
+            class="inline-block bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-300"
+          >
+            Lihat Berita
+          </router-link>
+        </div>
   
         <!-- Donasi -->
         <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition">
