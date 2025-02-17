@@ -66,7 +66,9 @@
                 class="w-8 h-8 rounded-full object-cover"
               />
               <span class="text-sm font-medium">{{ post.full_name }}</span>
-              <span class="text-sm text-gray-500">• {{ formatDate(post.created_at) }}</span>
+              <span class="text-sm text-gray-500">
+                • {{ formatDate(post.created_at) }}
+              </span>
             </div>
           </div>
           <p class="text-gray-700 mb-4">{{ post.content }}</p>
@@ -89,7 +91,9 @@
                     class="w-6 h-6 rounded-full object-cover"
                   />
                   <span class="text-sm font-medium">{{ reply.full_name }}</span>
-                  <span class="text-sm text-gray-500">• {{ formatDate(reply.created_at) }}</span>
+                  <span class="text-sm text-gray-500">
+                    • {{ formatDate(reply.created_at) }}
+                  </span>
                 </div>
                 <p class="text-gray-700">{{ reply.content }}</p>
               </li>
@@ -161,6 +165,8 @@
 
 <script>
 import axios from "axios";
+import Swal from "sweetalert2"; // pastikan sudah install sweetalert2 (npm install sweetalert2)
+
 export default {
   name: "ForumDiskusi",
   data() {
@@ -249,47 +255,49 @@ export default {
     },
     createPost() {
       if (!this.newPost.title.trim() || !this.newPost.content.trim()) {
-        alert("Judul dan isi diskusi tidak boleh kosong!");
+        Swal.fire("Peringatan", "Judul dan isi diskusi tidak boleh kosong!", "warning");
         return;
       }
+      const token = localStorage.getItem("access_token"); // pastikan token tersimpan dengan key "access_token"
       axios
         .post("http://127.0.0.1:8000/api/discussions/", this.newPost, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
           this.newPost.title = "";
           this.newPost.content = "";
-          alert("Postingan berhasil dibuat!");
+          Swal.fire("Sukses", "Postingan berhasil dibuat!", "success");
           this.fetchPosts();
         })
         .catch((error) => {
           console.error("Error creating post:", error);
-          alert("Gagal membuat postingan! Pastikan Anda sudah login.");
+          Swal.fire("Error", "Gagal membuat postingan! Pastikan Anda sudah login.", "error");
         });
     },
     addReply(postId) {
       const content = this.replyContent[postId];
       if (!content || !content.trim()) {
-        alert("Balasan tidak boleh kosong!");
+        Swal.fire("Peringatan", "Balasan tidak boleh kosong!", "warning");
         return;
       }
-      const payload = { post: postId, content };
+      const payload = { post: postId, content };  // sesuai dengan field model DiscussionReply
+      const token = localStorage.getItem("access_token"); // gunakan key "access_token"
       axios
         .post("http://127.0.0.1:8000/api/discussion-replies/", payload, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
           this.replyContent[postId] = "";
-          alert("Balasan berhasil ditambahkan!");
+          Swal.fire("Sukses", "Balasan berhasil ditambahkan", "success");
           this.fetchPosts();
         })
         .catch((error) => {
           console.error("Error adding reply:", error);
-          alert("Gagal menambahkan balasan! Pastikan Anda sudah login.");
+          Swal.fire("Error", "Gagal menambahkan balasan! Pastikan Anda sudah login.", "error");
         });
     },
     goToPage(page) {

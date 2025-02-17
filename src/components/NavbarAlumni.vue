@@ -6,8 +6,8 @@
         <router-link to="/alumni">Ikatan Alumni</router-link>
       </div>
 
-      <!-- Menu Items -->
-      <ul class="flex space-x-6">
+      <!-- Desktop Menu Items -->
+      <ul class="hidden md:flex space-x-6">
         <li>
           <router-link to="/alumni" :class="isActive('/alumni')">Dashboard</router-link>
         </li>
@@ -43,8 +43,8 @@
         </li>
       </ul>
 
-      <!-- Profile Photo & Username with Dropdown -->
-      <div ref="profileMenuRef" class="relative">
+      <!-- Desktop Profile & Dropdown -->
+      <div ref="profileMenuRef" class="hidden md:block relative">
         <button @click="toggleProfileMenu" class="focus:outline-none flex items-center">
           <img
             :src="profilePhoto"
@@ -53,7 +53,6 @@
           />
           <span class="ml-2">{{ username }}</span>
         </button>
-
         <!-- Dropdown Menu -->
         <div v-if="showProfileMenu" class="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50">
           <ul>
@@ -70,6 +69,70 @@
           </ul>
         </div>
       </div>
+
+      <!-- Hamburger Menu Button for Mobile -->
+      <div class="md:hidden">
+        <button @click="toggleMobileMenu" class="focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+               xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div v-if="showMobileMenu" class="md:hidden bg-ikasda-primary">
+      <ul class="flex flex-col space-y-2 p-4">
+        <li>
+          <router-link to="/alumni" :class="isActive('/alumni')" @click="toggleMobileMenu">
+            Dashboard
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/alumni/kesan-pesan" :class="isActive('/alumni/kesan-pesan')" @click="toggleMobileMenu">
+            Kesan & Pesan
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/alumni/event-alumni" :class="isActive('/alumni/event-alumni')" @click="toggleMobileMenu">
+            Event
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/alumni/news" :class="isActive('/alumni/news')" @click="toggleMobileMenu">
+            Berita
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/alumni/donasi" :class="isActive('/alumni/donasi')" @click="toggleMobileMenu">
+            Donasi
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/alumni/forum-diskusi" :class="isActive('/alumni/forum-diskusi')" @click="toggleMobileMenu">
+            Forum Diskusi
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/alumni/daftar-alumni" :class="isActive('/alumni/daftar-alumni')" @click="toggleMobileMenu">
+            Alumni
+          </router-link>
+        </li>
+        <hr class="border-gray-300 my-2" />
+        <!-- Mobile Profile Section -->
+        <li>
+          <router-link to="/alumni/profile-alumni" class="block text-white" @click="toggleMobileMenu">
+            Edit Profile
+          </router-link>
+        </li>
+        <li>
+          <button @click="handleLogoutClick" class="w-full text-left text-white">
+            Logout
+          </button>
+        </li>
+      </ul>
     </div>
   </nav>
 </template>
@@ -83,14 +146,14 @@ import Swal from 'sweetalert2';
 const route = useRoute();
 const router = useRouter();
 
-// Fungsi untuk cek apakah path aktif
+// Fungsi cek path aktif
 const isActive = (path) => {
   return route.path === path
     ? "text-white font-bold border-b-2 border-white"
     : "hover:text-gray-200";
 };
 
-// State untuk dropdown
+// Desktop Profile Dropdown
 const showProfileMenu = ref(false);
 const toggleProfileMenu = () => {
   showProfileMenu.value = !showProfileMenu.value;
@@ -99,7 +162,6 @@ const closeMenu = () => {
   showProfileMenu.value = false;
 };
 
-// Ref untuk container dropdown guna mendeteksi klik di luar
 const profileMenuRef = ref(null);
 const handleClickOutside = (event) => {
   if (profileMenuRef.value && !profileMenuRef.value.contains(event.target)) {
@@ -107,13 +169,11 @@ const handleClickOutside = (event) => {
   }
 };
 
-// Data profil (foto dan username)
+// Data Profil
 const userProfile = ref({
   fotoProfil: "",
   username: ""
 });
-
-// Mengambil data profil dari API
 const loadProfile = () => {
   const token = localStorage.getItem("access_token");
   axios
@@ -127,7 +187,6 @@ const loadProfile = () => {
       if (data.fotoProfil) {
         userProfile.value.fotoProfil = data.fotoProfil;
       }
-      // Ubah pengecekan dari data.username menjadi data.name
       if (data.name) {
         userProfile.value.username = data.name;
       }
@@ -141,16 +200,14 @@ onMounted(() => {
   loadProfile();
   document.addEventListener("click", handleClickOutside);
 });
-
 onBeforeUnmount(() => {
   document.removeEventListener("click", handleClickOutside);
 });
 
-// Computed untuk menampilkan foto dan username
 const profilePhoto = computed(() => userProfile.value.fotoProfil || "https://via.placeholder.com/150");
 const username = computed(() => userProfile.value.username || "User");
 
-// Fungsi Logout dengan konfirmasi
+// Logout dengan konfirmasi
 const handleLogoutClick = () => {
   closeMenu();
   Swal.fire({
@@ -178,8 +235,14 @@ const handleLogoutClick = () => {
     }
   });
 };
+
+// Mobile Menu
+const showMobileMenu = ref(false);
+const toggleMobileMenu = () => {
+  showMobileMenu.value = !showMobileMenu.value;
+};
 </script>
 
 <style scoped>
-/* Tambahan style jika dibutuhkan */
+/* Anda bisa menambahkan styling tambahan jika diperlukan */
 </style>

@@ -130,7 +130,8 @@
 
 <script>
 import axios from "axios";
-import QrcodeVue from "qrcode.vue"; // Import qrcode.vue
+import QrcodeVue from "qrcode.vue";
+import Swal from "sweetalert2"; // pastikan sudah install sweetalert2 (npm install sweetalert2)
 
 export default {
   name: "Donasi",
@@ -142,7 +143,7 @@ export default {
         email: "",
         amount: null,
         message: "",
-        proof: null, // properti untuk file bukti donasi
+        proof: null,
       },
       donations: [],
       loading: false,
@@ -209,7 +210,7 @@ export default {
         !this.newDonation.email.trim() ||
         !this.newDonation.amount
       ) {
-        alert("Mohon lengkapi data donasi!");
+        Swal.fire("Peringatan", "Mohon lengkapi data donasi!", "warning");
         return;
       }
       const formData = new FormData();
@@ -220,14 +221,19 @@ export default {
       if (this.newDonation.proof) {
         formData.append("proof", this.newDonation.proof);
       }
+      
+      // Mengambil token dari localStorage (pastikan token sudah tersimpan saat login)
+      const token = localStorage.getItem("token");
+
       axios
         .post("http://127.0.0.1:8000/api/donations/", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            ...(token && { "Authorization": `Bearer ${token}` }),
           },
         })
         .then((response) => {
-          alert("Donasi berhasil dikirim!");
+          Swal.fire("Sukses", "Donasi berhasil dikirim!", "success");
           // Reset form donasi
           this.newDonation = {
             name: "",
@@ -241,7 +247,12 @@ export default {
         })
         .catch((error) => {
           console.error("Error sending donation:", error);
-          alert("Gagal mengirim donasi. Silakan coba lagi.");
+          // Jika error status 401, artinya user belum terautentikasi dengan benar
+          if (error.response && error.response.status === 401) {
+            Swal.fire("Error", "Anda tidak terautentikasi. Silakan login terlebih dahulu.", "error");
+          } else {
+            Swal.fire("Error", "Gagal mengirim donasi. Silakan coba lagi.", "error");
+          }
         });
     },
   },

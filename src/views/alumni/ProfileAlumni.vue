@@ -1,5 +1,5 @@
 <template>
-  <div class="relative mx-64 my-8 p-6 bg-white shadow-lg rounded-lg">
+  <div class="relative mx-4 sm:mx-8 md:mx-16 lg:mx-64 my-8 p-4 sm:p-6 bg-white shadow-lg rounded-lg">
     <!-- Ikon Edit di pojok kanan atas -->
     <div class="absolute top-4 right-4">
       <button @click="confirmEdit" class="text-gray-600 hover:text-gray-800">
@@ -12,7 +12,7 @@
       </button>
     </div>
 
-    <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+    <h1 class="text-xl sm:text-2xl font-bold text-gray-800 mb-6 text-center">
       Profil Alumni
     </h1>
 
@@ -22,22 +22,22 @@
         <!-- Foto Profil -->
         <div class="mb-4">
           <img v-if="previewImage" :src="previewImage" alt="Foto Profil"
-               class="w-32 h-32 object-cover rounded-full" />
-          <div v-else class="w-32 h-32 flex items-center justify-center bg-gray-200 rounded-full">
-            <span class="text-gray-500">No Image</span>
+               class="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-full" />
+          <div v-else class="w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center bg-gray-200 rounded-full">
+            <span class="text-gray-500 text-xs sm:text-sm">No Image</span>
           </div>
         </div>
         <!-- Data Profil -->
         <div class="mb-2">
-          <h2 class="text-xl font-semibold">
+          <h2 class="text-lg sm:text-xl font-semibold">
             {{ form.name || "Nama belum diatur" }}
           </h2>
         </div>
         <div class="mb-2">
-          <p class="text-gray-600">Angkatan: {{ form.angkatan || "-" }}</p>
+          <p class="text-gray-600 text-sm">Angkatan: {{ form.angkatan || "-" }}</p>
         </div>
         <div class="mb-2">
-          <p class="text-gray-600">Pekerjaan: {{ form.pekerjaan || "-" }}</p>
+          <p class="text-gray-600 text-sm">Pekerjaan: {{ form.pekerjaan || "-" }}</p>
         </div>
       </div>
     </div>
@@ -54,7 +54,7 @@
             <img
               :src="previewImage"
               alt="Foto Profil"
-              class="w-32 h-32 object-cover rounded-full"
+              class="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-full"
             />
           </div>
           <input type="file" @change="handleFileUpload" class="mt-2" />
@@ -63,7 +63,7 @@
             <button
               type="button"
               @click="cancelPhoto"
-              class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+              class="bg-red-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-red-600 transition duration-300 text-sm"
             >
               Batal Tambah Foto
             </button>
@@ -79,7 +79,7 @@
             v-model="form.name"
             type="text"
             id="name"
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
             placeholder="Masukkan nama lengkap"
           />
         </div>
@@ -93,7 +93,7 @@
             v-model="form.angkatan"
             type="number"
             id="angkatan"
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
             placeholder="Masukkan angkatan (contoh: 2010)"
           />
         </div>
@@ -107,7 +107,7 @@
             v-model="form.pekerjaan"
             type="text"
             id="pekerjaan"
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
             placeholder="Masukkan pekerjaan"
           />
         </div>
@@ -116,14 +116,14 @@
         <div class="mt-6">
           <button
             type="submit"
-            class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
+            class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 text-sm"
           >
             Simpan Perubahan
           </button>
           <button
             type="button"
             @click="cancelEdit"
-            class="w-full mt-2 bg-gray-300 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-400 transition duration-300"
+            class="w-full mt-2 bg-gray-300 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-400 transition duration-300 text-sm"
           >
             Batal
           </button>
@@ -134,20 +134,20 @@
     <!-- Modal Konfirmasi Edit -->
     <div
       v-if="showEditModal"
-      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4"
     >
-      <div class="bg-white p-6 rounded-lg shadow-lg">
-        <p class="mb-4">Apakah Anda ingin mengedit profil Anda?</p>
+      <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg w-full max-w-sm">
+        <p class="mb-4 text-sm">Apakah Anda ingin mengedit profil Anda?</p>
         <div class="flex justify-end">
           <button
             @click="confirmEditYes"
-            class="bg-blue-600 text-white px-4 py-2 rounded-lg mr-2"
+            class="bg-blue-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-lg mr-2 text-sm"
           >
             Ya
           </button>
           <button
             @click="confirmEditNo"
-            class="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg"
+            class="bg-gray-300 text-gray-800 px-3 py-1 sm:px-4 sm:py-2 rounded-lg text-sm"
           >
             Batal
           </button>

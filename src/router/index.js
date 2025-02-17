@@ -7,6 +7,7 @@ import NewsView from '@/views/NewsView.vue';
 import NewsDetailView from '@/views/NewsDetailView.vue';
 import EventView from '@/views/EventView.vue';
 import GalleryView from '@/views/GalleryView.vue';
+import DetailGalleryView from '@/views/DetailGalleryView.vue';
 import LoginView from '@/views/LoginView.vue';
 
 import DashboardAlumni from '@/views/alumni/DashboardAlumni.vue';
@@ -48,6 +49,7 @@ const routes = [
   { path: '/news/:id', name: 'news-detail', component: NewsDetailView, meta: { layout: 'umum' } },
   { path: '/events', component: EventView, meta: { layout: 'umum' } },
   { path: '/gallery', component: GalleryView, meta: { layout: 'umum' } },
+  { path: '/gallery/:id', component: DetailGalleryView, meta: { layout: 'umum' } },
   { path: '/login', component: LoginView, meta: { layout: 'umum' } },
   { path: '/register', component: RegistrationView, meta: { layout: 'umum' } },
 

@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@iconify/vue": "^4.3.0",
     "aos": "^2.3.4",
     "apexcharts": "^4.2.0",
     "axios": "^1.7.9",
