@@ -18,8 +18,8 @@
           <p class="mt-2">
             {{
               announcement.excerpt
-                ? announcement.excerpt
-                : announcement.content.substring(0, 150) + '...'
+                ? getExcerpt(announcement.excerpt, 15)
+                : getExcerpt(announcement.content, 15)
             }}
           </p>
         </div>
@@ -62,8 +62,8 @@
           <p class="text-gray-700 mb-2">
             {{
               item.excerpt
-                ? item.excerpt
-                : item.content.substring(0, 100) + '...'
+                ? getExcerpt(item.excerpt, 15)
+                : getExcerpt(item.content, 15)
             }}
           </p>
           <router-link
@@ -219,6 +219,13 @@ function fetchEvents() {
     .catch(error => {
       console.error("Error fetching events:", error);
     });
+}
+
+// Fungsi untuk memotong teks menjadi maksimal sejumlah kata (default 15 kata)
+function getExcerpt(text, wordLimit = 15) {
+  if (!text) return "";
+  const words = text.split(/\s+/);
+  return words.length <= wordLimit ? text : words.slice(0, wordLimit).join(" ") + "...";
 }
 
 // Logika untuk pesan alumni dinamis

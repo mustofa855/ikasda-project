@@ -21,7 +21,11 @@
           <div class="absolute inset-0 bg-black bg-opacity-50 rounded-lg flex flex-col justify-end p-6">
             <h2 class="text-3xl font-bold text-white mb-4">{{ featuredNews.title }}</h2>
             <p class="text-white mb-4">
-              {{ featuredNews.excerpt ? featuredNews.excerpt : truncateText(featuredNews.content, 200) }}
+              {{
+                featuredNews.excerpt
+                  ? getExcerpt(featuredNews.excerpt, 15)
+                  : getExcerpt(featuredNews.content, 15)
+              }}
             </p>
             <router-link
               :to="`/news/${featuredNews.id}`"
@@ -88,7 +92,11 @@
               <div class="p-4">
                 <h3 class="text-xl font-semibold mb-2">{{ news.title }}</h3>
                 <p class="text-gray-600 text-sm mb-4">
-                  {{ news.excerpt ? news.excerpt : truncateText(news.content, 100) }}
+                  {{
+                    news.excerpt
+                      ? getExcerpt(news.excerpt, 15)
+                      : getExcerpt(news.content, 15)
+                  }}
                 </p>
                 <router-link
                   :to="`/news/${news.id}`"
@@ -157,9 +165,11 @@ export default {
       return groups;
     });
 
-    const truncateText = (text, length) => {
+    // Fungsi untuk memotong teks berdasarkan jumlah kata (default 15 kata)
+    const getExcerpt = (text, wordLimit = 15) => {
       if (!text) return "";
-      return text.length > length ? text.substring(0, length) + "..." : text;
+      const words = text.split(/\s+/);
+      return words.length <= wordLimit ? text : words.slice(0, wordLimit).join(" ") + "...";
     };
 
     // Fungsi untuk memformat tanggal menjadi dd/mm/yyyy
@@ -182,7 +192,7 @@ export default {
       featuredNews,
       latestPosts,
       groupedNews,
-      truncateText,
+      getExcerpt,
       formatDate,
     };
   }
