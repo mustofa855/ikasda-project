@@ -62,24 +62,22 @@
                 {{ user.profile ? user.profile.education : '-' }}
               </td>
               <td class="py-2 px-4 border-b">{{ user.role }}</td>
-              <td class="py-2 px-4 border-b">
+              <td class="py-2 px-4 border-b text-center">
                 <span v-if="user.verified"
-                  class="inline-flex items-center gap-x-1 text-green-600 font-bold whitespace-nowrap">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                    <path fill="currentColor"
-                      d="M9 16.17L5.53 12.7a.996.996 0 1 0-1.41 1.41l4.18 4.18c.39.39 1.02.39 1.41 0L20.29 7.71a.996.996 0 1 0-1.41-1.41z" />
+                  class="inline-flex items-center gap-x-1 text-green-600 font-semibold whitespace-nowrap">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 16 16">
+                    <path fill="currentColor" fill-rule="evenodd"
+                      d="M13.488 3.43a.75.75 0 0 1 .081 1.058l-6 7a.75.75 0 0 1-1.1.042l-3.5-3.5A.75.75 0 0 1 4.03 6.97l2.928 2.927l5.473-6.385a.75.75 0 0 1 1.057-.081"
+                      clip-rule="evenodd" />
                   </svg>
-                  Terverifikasi
                 </span>
                 <span v-else class="inline-flex items-center gap-x-1 text-red-600 font-semibold whitespace-nowrap">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24">
                     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                       stroke-width="2.5" d="m7 7l10 10M7 17L17 7" />
                   </svg>
-                  Not Verified
                 </span>
               </td>
-
 
               <td class="py-2 px-4 border-b flex space-x-2">
                 <!-- Tombol Edit -->
@@ -257,7 +255,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
-import { Icon } from "@iconify/vue";
 
 export default {
   name: "AlumniManagement",
@@ -357,6 +354,7 @@ export default {
         }
       });
     },
+
 
     deleteUser(userId) {
       Swal.fire({
