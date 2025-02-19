@@ -1,10 +1,11 @@
 <template>
   <nav class="bg-ikasda-primary text-white p-4 shadow-md">
     <div class="container mx-auto flex justify-between items-center">
-      <!-- Logo -->
-      <div class="text-lg font-bold">
-        <router-link to="/alumni">Ikatan Alumni</router-link>
-      </div>
+      <!-- Logo Ikasda -->
+      <router-link to="/" class="flex items-center cursor-pointer">
+        <img src="@/assets/img/ikasda_logo.svg" alt="Logo Ikasda" class="w-15 h-10 mr-2 scale-125" />
+        <h1 class="text-lg text-white">IKASDA</h1>
+      </router-link>
 
       <!-- Desktop Menu Items -->
       <ul class="hidden md:flex space-x-6">
@@ -46,11 +47,7 @@
       <!-- Desktop Profile & Dropdown -->
       <div ref="profileMenuRef" class="hidden md:block relative">
         <button @click="toggleProfileMenu" class="focus:outline-none flex items-center">
-          <img
-            :src="profilePhoto"
-            alt="Profile Photo"
-            class="w-10 h-10 rounded-full border-2 border-white"
-          />
+          <img :src="profilePhoto" alt="Profile Photo" class="w-10 h-10 rounded-full border-2 border-white" />
           <span class="ml-2">{{ username }}</span>
         </button>
         <!-- Dropdown Menu -->
@@ -73,10 +70,8 @@
       <!-- Hamburger Menu Button for Mobile -->
       <div class="md:hidden">
         <button @click="toggleMobileMenu" class="focus:outline-none">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-               xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h16"></path>
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </button>
       </div>
