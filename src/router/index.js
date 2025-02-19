@@ -14,7 +14,6 @@ import DashboardAlumni from '@/views/alumni/DashboardAlumni.vue';
 import ProfileAlumni from '@/views/alumni/ProfileAlumni.vue';
 import EventAlumni from '@/views/alumni/EventAlumni.vue';
 import NewsAlumni from '@/views/alumni/AlumniNews.vue';
-import AlumniEventRegistration from '@/views/alumni/AlumniEventRegistration.vue';
 import EventDetailView from '@/views/alumni/EventDetailView.vue';
 import DonasiView from '@/views/alumni/DonasiView.vue';
 import ForumDiskusi from '@/views/alumni/ForumDiskusi.vue';
@@ -73,11 +72,6 @@ const routes = [
   { 
     path: '/alumni/event-alumni', 
     component: EventAlumni, 
-    meta: { requiresAuth: true, role: 'alumni', layout: 'alumni' }
-  },
-  { 
-    path: '/alumni/event-alumni/:id', 
-    component: AlumniEventRegistration, 
     meta: { requiresAuth: true, role: 'alumni', layout: 'alumni' }
   },
   { 

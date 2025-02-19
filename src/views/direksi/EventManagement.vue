@@ -181,35 +181,62 @@
       </div>
     </div>
 
-    <!-- Modal Daftar Peserta (Diperbesar dengan Tabel Baru) -->
+    <!-- Modal Daftar Peserta (Scrollable dan dengan Pagination per 15 peserta) -->
     <div v-if="showParticipantsModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4 z-50">
       <div class="bg-white p-6 rounded shadow-lg w-full max-w-5xl max-h-[90vh] overflow-auto">
         <h2 class="text-2xl font-bold mb-4">Peserta Event: {{ currentEventParticipants.title }}</h2>
         <div v-if="participantsList.length">
-          <table class="min-w-full border-collapse border border-gray-300">
-            <thead>
-              <tr class="bg-gray-200">
-                <th class="py-2 px-4 border border-gray-300">No</th>
-                <th class="py-2 px-4 border border-gray-300">Nama Lengkap</th>
-                <th class="py-2 px-4 border border-gray-300">Email</th>
-                <th class="py-2 px-4 border border-gray-300">Tanggal Daftar</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(participant, index) in participantsList" :key="participant.id" class="hover:bg-gray-100">
-                <td class="py-2 px-4 border border-gray-300">{{ index + 1 }}</td>
-                <td class="py-2 px-4 border border-gray-300">
-                  {{ participant.user_detail.first_name }} {{ participant.user_detail.last_name }}
-                </td>
-                <td class="py-2 px-4 border border-gray-300">
-                  {{ participant.user_detail.email }}
-                </td>
-                <td class="py-2 px-4 border border-gray-300">
-                  {{ formatDate(participant.registration_date) }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <!-- Kontainer scrollable untuk tabel peserta -->
+          <div class="overflow-y-auto max-h-96">
+            <table class="min-w-full border-collapse border border-gray-300">
+              <thead>
+                <tr class="bg-gray-200">
+                  <th class="py-2 px-4 border border-gray-300">No</th>
+                  <th class="py-2 px-4 border border-gray-300">Nama Lengkap</th>
+                  <th class="py-2 px-4 border border-gray-300">Email</th>
+                  <th class="py-2 px-4 border border-gray-300">Tanggal Daftar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(participant, index) in paginatedParticipants"
+                  :key="participant.id"
+                  class="hover:bg-gray-100"
+                >
+                  <td class="py-2 px-4 border border-gray-300">
+                    {{ (currentParticipantsPage - 1) * participantsPerPage + index + 1 }}
+                  </td>
+                  <td class="py-2 px-4 border border-gray-300">
+                    {{ participant.user_detail.first_name }} {{ participant.user_detail.last_name }}
+                  </td>
+                  <td class="py-2 px-4 border border-gray-300">
+                    {{ participant.user_detail.email }}
+                  </td>
+                  <td class="py-2 px-4 border border-gray-300">
+                    {{ formatDate(participant.registration_date) }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Pagination Controls -->
+          <div v-if="totalParticipantsPages >=  1" class="mt-4 flex justify-center items-center space-x-2">
+            <button
+              @click="prevPage"
+              :disabled="currentParticipantsPage === 1"
+              class="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <span>Page {{ currentParticipantsPage }} of {{ totalParticipantsPages }}</span>
+            <button
+              @click="nextPage"
+              :disabled="currentParticipantsPage === totalParticipantsPages"
+              class="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
         </div>
         <div v-else class="text-gray-500">
           Belum ada peserta.
@@ -251,7 +278,19 @@ export default {
       showParticipantsModal: false,
       currentEventParticipants: {},
       participantsList: [],
+      // Data pagination untuk peserta
+      currentParticipantsPage: 1,
+      participantsPerPage: 15,
     };
+  },
+  computed: {
+    paginatedParticipants() {
+      const start = (this.currentParticipantsPage - 1) * this.participantsPerPage;
+      return this.participantsList.slice(start, start + this.participantsPerPage);
+    },
+    totalParticipantsPages() {
+      return Math.ceil(this.participantsList.length / this.participantsPerPage);
+    }
   },
   mounted() {
     this.fetchEvents();
@@ -380,6 +419,7 @@ export default {
     // Modal Peserta Event
     openParticipantsModal(event) {
       this.currentEventParticipants = event;
+      this.currentParticipantsPage = 1; // Reset ke halaman pertama
       const token = localStorage.getItem("access_token");
       axios
         .get(`http://127.0.0.1:8000/api/event-registrations/?event=${event.id}`, {
@@ -398,6 +438,16 @@ export default {
       this.showParticipantsModal = false;
       this.participantsList = [];
     },
+    prevPage() {
+      if (this.currentParticipantsPage > 1) {
+        this.currentParticipantsPage--;
+      }
+    },
+    nextPage() {
+      if (this.currentParticipantsPage < this.totalParticipantsPages) {
+        this.currentParticipantsPage++;
+      }
+    },
     formatDate(dateStr) {
       const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
       return new Date(dateStr).toLocaleDateString(undefined, options);
@@ -407,5 +457,5 @@ export default {
 </script>
 
 <style scoped>
-/* Tambahkan styling tambahan jika diperlukan */
+/* Tambahan styling jika diperlukan */
 </style>
