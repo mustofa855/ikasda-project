@@ -42,14 +42,6 @@
         </li>
         <li>
           <router-link
-            to="/direksi/statistic"
-            :class="['block px-4 py-2 hover:bg-gray-700 transition rounded', isActive('/direksi/statistic')]"
-          >
-            Statistik
-          </router-link>
-        </li>
-        <li>
-          <router-link
             to="/direksi/alumni-management"
             :class="['block px-4 py-2 hover:bg-gray-700 transition rounded', isActive('/direksi/alumni-management')]"
           >

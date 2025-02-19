@@ -14,7 +14,6 @@ import DashboardAlumni from '@/views/alumni/DashboardAlumni.vue';
 import ProfileAlumni from '@/views/alumni/ProfileAlumni.vue';
 import EventAlumni from '@/views/alumni/EventAlumni.vue';
 import NewsAlumni from '@/views/alumni/AlumniNews.vue';
-import EventDetailView from '@/views/alumni/EventDetailView.vue';
 import DonasiView from '@/views/alumni/DonasiView.vue';
 import ForumDiskusi from '@/views/alumni/ForumDiskusi.vue';
 
@@ -26,7 +25,6 @@ import EventManagement from '@/views/direksi/EventManagement.vue';
 import KesanPesan from '@/views/alumni/KesanPesan.vue';
 import ContentManagement from '@/views/direksi/ContentManagement.vue';
 import FinancialReports from '@/views/direksi/FinancialReports.vue';
-import DireksiStatistic from '@/views/direksi/DireksiStatistic.vue';
 import StrategicDecision from '@/views/direksi/StrategicDecision.vue';
 import StrategicReports from '@/views/direksi/StrategicReports.vue';
 import GalleryManagement from '@/views/direksi/GalleryManagement.vue';
@@ -97,25 +95,24 @@ const routes = [
 
 
   // Halaman direksi
-  { path: '/direksi', component: DashboardDireksi, meta: { layout: 'direksi' } },
-  { path: '/direksi/event-registration', component: EventRegistration, meta: { layout: 'direksi' } },
-  { path: '/direksi/statistic', component: DireksiStatistic, meta: { layout: 'direksi' } },
-  { path: '/direksi/alumni-management', component: AlumniManagement, meta: { layout: 'direksi' } },
-  { path: '/direksi/user-verification', component: UserVerification, meta: { layout: 'direksi' } },
-  { path: '/direksi/gallery-management', component: GalleryManagement, meta: { layout: 'direksi' } },
-  { path: '/direksi/event-management', component: EventManagement, meta: { layout: 'direksi' } },
-  { path: '/direksi/content-management', component: ContentManagement, meta: { layout: 'direksi' } },
-  { path: '/direksi/financial-reports', component: FinancialReports, meta: { layout: 'direksi' } },
-  { path: '/direksi/strategic-decision', component: StrategicDecision, meta: { layout: 'direksi' } },
-  { path: '/direksi/strategic-reports', component: StrategicReports, meta: { layout: 'direksi' } },
+  { path: '/direksi', component: DashboardDireksi, meta: { requiresAuth:true ,role: 'direksi' , layout: 'direksi' } },
+  { path: '/direksi/event-registration', component: EventRegistration, meta: { requiresAuth:true ,role: 'direksi' , layout: 'direksi' } },
+  { path: '/direksi/alumni-management', component: AlumniManagement, meta: { requiresAuth:true ,role: 'direksi' , layout: 'direksi' } },
+  { path: '/direksi/user-verification', component: UserVerification, meta: { requiresAuth:true ,role: 'direksi' , layout: 'direksi' } },
+  { path: '/direksi/gallery-management', component: GalleryManagement, meta: { requiresAuth:true ,role: 'direksi' , layout: 'direksi' } },
+  { path: '/direksi/event-management', component: EventManagement, meta: { requiresAuth:true ,role: 'direksi' , layout: 'direksi' } },
+  { path: '/direksi/content-management', component: ContentManagement, meta: { requiresAuth:true ,role: 'direksi' , layout: 'direksi' } },
+  { path: '/direksi/financial-reports', component: FinancialReports, meta: { requiresAuth:true ,role: 'direksi' , layout: 'direksi' } },
+  { path: '/direksi/strategic-decision', component: StrategicDecision, meta: { requiresAuth:true ,role: 'direksi' , layout: 'direksi' } },
+  { path: '/direksi/strategic-reports', component: StrategicReports, meta: { requiresAuth:true ,role: 'direksi' , layout: 'direksi' } },
 
   // Halaman bpa
-  { path: '/bpa/', component: DashboardBpa, meta: { layout: 'bpa' } },
-  { path: '/bpa/activity-audit', component: ActivityAudit, meta: { layout: 'bpa' } },
-  { path: '/bpa/audit-reports', component: AuditReports, meta: { layout: 'bpa' } },
-  { path: '/bpa/pengawasan-event', component: PengawasanEvent, meta: { layout: 'bpa' } },
-  { path: '/bpa/persetujuan-keputusan', component: PersetujuanKeputusan, meta: { layout: 'bpa' } },
-  { path: '/bpa/event-bpa', component: EventBpa, meta: { layout: 'bpa' } },
+  { path: '/bpa/', component: DashboardBpa, meta: { requiresAuth:true , role: 'bpa', layout: 'bpa' } },
+  { path: '/bpa/activity-audit', component: ActivityAudit, meta: { requiresAuth:true , role: 'bpa', layout: 'bpa' } },
+  { path: '/bpa/audit-reports', component: AuditReports, meta: { requiresAuth:true , role: 'bpa', layout: 'bpa' } },
+  { path: '/bpa/pengawasan-event', component: PengawasanEvent, meta: { requiresAuth:true , role: 'bpa', layout: 'bpa' } },
+  { path: '/bpa/persetujuan-keputusan', component: PersetujuanKeputusan, meta: { requiresAuth:true , role: 'bpa', layout: 'bpa' } },
+  { path: '/bpa/event-bpa', component: EventBpa, meta: { requiresAuth:true , role: 'bpa', layout: 'bpa' } },
 ];
 
 // Buat router
