@@ -1,78 +1,85 @@
 <template>
-    <div class="ml-64 p-6">
-      <h1 class="text-3xl font-bold mb-4">Dashboard Direksi</h1>
-  
-      <!-- Ringkasan Statistik -->
-      <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div class="bg-blue-500 text-white p-4 rounded shadow">
-          <h2 class="text-xl font-semibold">Jumlah Alumni</h2>
-          <p class="text-2xl">{{ statistics.alumni }}</p>
+  <div class="ml-64 p-6">
+    <h1 class="text-3xl font-bold mb-6">Dashboard Direksi</h1>
+    
+    <!-- Laporan Strategis (Ringkasan) -->
+    <div class="mb-6 bg-white p-6 rounded shadow">
+      <h2 class="text-2xl font-semibold mb-4">Laporan Strategis</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 border rounded">
+          <h3 class="text-xl font-bold">Total Donasi</h3>
+          <p class="text-gray-700">Jumlah: {{ dashboardData.donation_count }}</p>
+          <p class="text-gray-700">Total: {{ formatCurrency(dashboardData.total_donations_amount) }}</p>
         </div>
-        <div class="bg-green-500 text-white p-4 rounded shadow">
-          <h2 class="text-xl font-semibold">Total Donasi</h2>
-          <p class="text-2xl">Rp {{ statistics.donasi }}</p>
+        <div class="p-4 border rounded">
+          <h3 class="text-xl font-bold">Total Event</h3>
+          <p class="text-gray-700">{{ dashboardData.total_events }}</p>
         </div>
-        <div class="bg-yellow-500 text-white p-4 rounded shadow">
-          <h2 class="text-xl font-semibold">Event Aktif</h2>
-          <p class="text-2xl">{{ statistics.events }}</p>
+        <div class="p-4 border rounded">
+          <h3 class="text-xl font-bold">Pendaftaran Event</h3>
+          <p class="text-gray-700">{{ dashboardData.event_registrations_count }}</p>
         </div>
-      </section>
-  
-      <!-- Laporan Keuangan -->
-      <section class="mb-6">
-        <h2 class="text-2xl font-semibold mb-4">Laporan Keuangan</h2>
-        <table class="min-w-full bg-white border border-gray-300">
-          <thead>
-            <tr>
-              <th class="py-2 px-4 border">Deskripsi</th>
-              <th class="py-2 px-4 border">Tanggal</th>
-              <th class="py-2 px-4 border">Jumlah</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(report, index) in financialReports" :key="index" class="hover:bg-gray-100">
-              <td class="py-2 px-4 border">{{ report.description }}</td>
-              <td class="py-2 px-4 border">{{ report.date }}</td>
-              <td class="py-2 px-4 border">Rp {{ report.amount }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-  
-      <!-- Event Terkini -->
-      <section>
-        <h2 class="text-2xl font-semibold mb-4">Event Terkini</h2>
-        <ul class="space-y-2">
-          <li v-for="(event, index) in events" :key="index" class="p-4 bg-white border rounded shadow">
-            <h3 class="text-lg font-bold">{{ event.title }}</h3>
-            <p class="text-gray-600">{{ event.date }}</p>
+      </div>
+      <div class="mt-4">
+        <h3 class="text-xl font-bold mb-2">Upcoming Events</h3>
+        <ul>
+          <li
+            v-for="event in dashboardData.upcoming_events"
+            :key="event.id"
+            class="border-b py-2"
+          >
+            <p class="font-semibold">{{ event.title }}</p>
+            <p class="text-gray-600">Mulai: {{ formatDate(event.start_date) }}</p>
           </li>
         </ul>
-      </section>
+      </div>
     </div>
-  </template>
-  
-  <script setup>
-  import { ref } from "vue";
-  
-  // Statistik Ringkasan
-  const statistics = ref({
-    alumni: 1200,
-    donasi: "500.000.000",
-    events: 5,
-  });
-  
-  // Laporan Keuangan (Dummy Data)
-  const financialReports = ref([
-    { description: "Donasi Alumni 2023", date: "2024-01-15", amount: "250.000.000" },
-    { description: "Penggalangan Dana", date: "2024-02-10", amount: "150.000.000" },
-    { description: "Sponsor Reuni Akbar", date: "2024-03-05", amount: "100.000.000" },
-  ]);
-  
-  // Event Terkini
-  const events = ref([
-    { title: "Reuni Akbar 2024", date: "2024-12-01" },
-    { title: "Donasi Pendidikan", date: "2024-11-15" },
-  ]);
-  </script>
-  
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+export default {
+  name: "DireksiDashboard",
+  data() {
+    return {
+      dashboardData: {
+        total_donations_amount: 0,
+        donation_count: 0,
+        total_events: 0,
+        upcoming_events: [],
+        event_registrations_count: 0,
+      },
+    };
+  },
+  mounted() {
+    this.fetchDashboardData();
+  },
+  methods: {
+    fetchDashboardData() {
+      const token = localStorage.getItem("access_token");
+      axios
+        .get("http://127.0.0.1:8000/api/direksi-dashboard/", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          this.dashboardData = response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching dashboard data:", error);
+        });
+    },
+    formatDate(dateStr) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      return new Date(dateStr).toLocaleDateString(undefined, options);
+    },
+    formatCurrency(amount) {
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(amount);
+    },
+  },
+};
+</script>
+
+<style scoped>
+/* Tambahan styling jika diperlukan */
+</style>
