@@ -36,6 +36,7 @@ import DashboardBpa from '@/views/bpa/DashboardBpa.vue';
 import ActivityAudit from '@/views/bpa/ActivityAudit.vue';
 import AuditReports from '@/views/bpa/AuditReports.vue';
 import PengawasanEvent from '@/views/bpa/PengawasanEvent.vue';
+import PersetujuanKeputusan from '@/views/bpa/PersetujuanKeputusan.vue';
 import EventBpa from '@/views/bpa/EventBpa.vue';
 import RegistrationView from '@/views/RegistrationView.vue';
 import AlumniView from '@/views/alumni/AlumniView.vue';
@@ -111,10 +112,11 @@ const routes = [
   { path: '/direksi/strategic-reports', component: StrategicReports, meta: { layout: 'direksi' } },
 
   // Halaman bpa
-  { path: '/bpa', component: DashboardBpa, meta: { layout: 'bpa' } },
+  { path: '/bpa/', component: DashboardBpa, meta: { layout: 'bpa' } },
   { path: '/bpa/activity-audit', component: ActivityAudit, meta: { layout: 'bpa' } },
   { path: '/bpa/audit-reports', component: AuditReports, meta: { layout: 'bpa' } },
   { path: '/bpa/pengawasan-event', component: PengawasanEvent, meta: { layout: 'bpa' } },
+  { path: '/bpa/persetujuan-keputusan', component: PersetujuanKeputusan, meta: { layout: 'bpa' } },
   { path: '/bpa/event-bpa', component: EventBpa, meta: { layout: 'bpa' } },
 ];
 
