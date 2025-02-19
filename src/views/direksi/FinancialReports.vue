@@ -129,7 +129,7 @@
           <strong>Saldo:</strong> Rp {{ formatNumber(balance) }}
         </p>
       </div>
-      <!-- Optional: Tampilkan detail penggunaan -->
+      <!-- Tampilkan detail penggunaan -->
       <div>
         <h4 class="text-md font-medium mb-2">Detail Penggunaan</h4>
         <ul>
@@ -150,7 +150,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
-import * as XLSX from 'xlsx'; // Untuk export Excel
+import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -162,7 +162,7 @@ const newUsage = ref({
   amount: ''
 });
 
-// Fungsi untuk mengambil data donasi dari API
+// Fungsi mengambil data donasi
 const fetchDonations = async () => {
   try {
     const token = localStorage.getItem("access_token");
@@ -175,7 +175,7 @@ const fetchDonations = async () => {
   }
 };
 
-// Fungsi untuk mengambil data penggunaan dari API
+// Fungsi mengambil data penggunaan
 const fetchUsages = async () => {
   try {
     const token = localStorage.getItem("access_token");
@@ -193,25 +193,23 @@ onMounted(() => {
   fetchUsages();
 });
 
-// Menghitung total donasi
+// Total donasi, penggunaan, dan saldo (saldo = totalDonasi - totalPenggunaan)
 const totalDonations = computed(() =>
   donations.value.reduce((sum, donation) => sum + parseFloat(donation.amount), 0)
 );
 
-// Menghitung total penggunaan
 const totalUsages = computed(() =>
   usages.value.reduce((sum, usage) => sum + parseFloat(usage.amount), 0)
 );
 
-// Saldo = Total Donasi - Total Penggunaan
 const balance = computed(() => totalDonations.value - totalUsages.value);
 
-// Fungsi untuk memformat angka (misal: 5000000 menjadi 5,000,000)
+// Fungsi format angka
 const formatNumber = (num) => {
-  return Number(num).toLocaleString();
+  return Number(num).toLocaleString('id-ID');
 };
 
-// Fungsi untuk mengirim input penggunaan dana ke backend
+// Fungsi untuk mengirim data penggunaan baru ke backend
 const submitUsage = async () => {
   try {
     const token = localStorage.getItem("access_token");
@@ -230,7 +228,7 @@ const submitUsage = async () => {
   }
 };
 
-// Export ke Excel
+// Fungsi export ke Excel dan PDF (tidak berubah)
 const exportToExcel = () => {
   let exportData = [];
   let sheetName = "";
@@ -262,7 +260,6 @@ const exportToExcel = () => {
   XLSX.writeFile(wb, `${sheetName}.xlsx`);
 };
 
-// Export ke PDF
 const exportToPDF = () => {
   const doc = new jsPDF();
   let title = "";
@@ -305,7 +302,6 @@ const exportToPDF = () => {
     body: data,
   });
   
-  // Tambahan informasi total jika diperlukan
   if (activeTab.value === 'mutasi') {
     doc.text(`Total Donasi: Rp ${formatNumber(totalDonations.value)}`, 14, doc.lastAutoTable.finalY + 10);
   } else if (activeTab.value === 'penggunaan') {
@@ -320,3 +316,7 @@ const exportToPDF = () => {
   doc.save(fileName);
 };
 </script>
+
+<style scoped>
+/* Anda dapat menambahkan styling tambahan jika diperlukan */
+</style>

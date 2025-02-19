@@ -51,15 +51,7 @@
             Persetujuan Keputusan
           </router-link>
         </li>
-        <li>
-          <router-link 
-            to="/bpa/notifikasi" 
-            :class="isActive('/bpa/notifikasi')"
-            class="block px-4 py-2 hover:bg-blue-700 transition"
-          >
-            Notifikasi
-          </router-link>
-        </li>
+        
       </ul>
     </div>
     <!-- Tombol logout di bagian bawah -->

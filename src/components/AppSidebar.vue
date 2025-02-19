@@ -98,14 +98,6 @@
         </li>
         <li>
           <router-link
-            to="/direksi/keputusan-bpa"
-            :class="['block px-4 py-2 hover:bg-gray-700 transition rounded', isActive('/direksi/keputusan-bpa')]"
-          >
-            Keputusan BPA
-          </router-link>
-        </li>
-        <li>
-          <router-link
             to="/direksi/strategic-decision"
             :class="['block px-4 py-2 hover:bg-gray-700 transition rounded', isActive('/direksi/strategic-decision')]"
           >

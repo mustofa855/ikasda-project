@@ -27,7 +27,6 @@ import KesanPesan from '@/views/alumni/KesanPesan.vue';
 import ContentManagement from '@/views/direksi/ContentManagement.vue';
 import FinancialReports from '@/views/direksi/FinancialReports.vue';
 import DireksiStatistic from '@/views/direksi/DireksiStatistic.vue';
-import BPADecision from '@/views/direksi/BPADecision.vue';
 import StrategicDecision from '@/views/direksi/StrategicDecision.vue';
 import StrategicReports from '@/views/direksi/StrategicReports.vue';
 import GalleryManagement from '@/views/direksi/GalleryManagement.vue';
@@ -107,7 +106,6 @@ const routes = [
   { path: '/direksi/event-management', component: EventManagement, meta: { layout: 'direksi' } },
   { path: '/direksi/content-management', component: ContentManagement, meta: { layout: 'direksi' } },
   { path: '/direksi/financial-reports', component: FinancialReports, meta: { layout: 'direksi' } },
-  { path: '/direksi/keputusan-bpa', component: BPADecision, meta: { layout: 'direksi' } },
   { path: '/direksi/strategic-decision', component: StrategicDecision, meta: { layout: 'direksi' } },
   { path: '/direksi/strategic-reports', component: StrategicReports, meta: { layout: 'direksi' } },
 
