@@ -22,6 +22,7 @@ import ForumDiskusi from '@/views/alumni/ForumDiskusi.vue';
 import DashboardDireksi from '@/views/direksi/DashboardDireksi.vue';
 import EventRegistration from '@/views/direksi/EventRegistration.vue';
 import AlumniManagement from '@/views/direksi/AlumniManagement.vue';
+import UserVerification from '@/views/direksi/UserVerification.vue';
 import EventManagement from '@/views/direksi/EventManagement.vue';
 import KesanPesan from '@/views/alumni/KesanPesan.vue';
 import ContentManagement from '@/views/direksi/ContentManagement.vue';
@@ -106,6 +107,7 @@ const routes = [
   { path: '/direksi/event-registration', component: EventRegistration, meta: { layout: 'direksi' } },
   { path: '/direksi/statistic', component: DireksiStatistic, meta: { layout: 'direksi' } },
   { path: '/direksi/alumni-management', component: AlumniManagement, meta: { layout: 'direksi' } },
+  { path: '/direksi/user-verification', component: UserVerification, meta: { layout: 'direksi' } },
   { path: '/direksi/gallery-management', component: GalleryManagement, meta: { layout: 'direksi' } },
   { path: '/direksi/event-management', component: EventManagement, meta: { layout: 'direksi' } },
   { path: '/direksi/content-management', component: ContentManagement, meta: { layout: 'direksi' } },

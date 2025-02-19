@@ -109,12 +109,17 @@
             placeholder="Masukkan pekerjaan" />
         </div>
 
-        <!-- Tombol Ajukan Verifikasi (jika akun belum terverifikasi) -->
-        <div v-if="!verified" class="mt-4">
-          <button @click="requestVerification" type="button"
+        <!-- Tombol Ajukan Verifikasi / Keterangan -->
+        <div class="mt-4">
+          <!-- Jika belum diverifikasi dan belum mengajukan, tampilkan tombol -->
+          <button v-if="!verified && !verificationRequested" @click="requestVerification" type="button"
             class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm">
             Ajukan Verifikasi Akun
           </button>
+          <!-- Jika belum diverifikasi dan sudah mengajukan, tampilkan keterangan -->
+          <span v-else-if="!verified && verificationRequested" class="text-yellow-600 text-sm">
+            Permintaan verifikasi telah diajukan
+          </span>
         </div>
 
         <!-- Tombol Simpan dan Batal Edit -->
@@ -159,7 +164,6 @@ export default {
   components: {
     Icon
   },
-
   data() {
     return {
       isEditing: false,
@@ -174,6 +178,7 @@ export default {
       previewImage: null,
       originalImage: null,
       verified: false, // status verifikasi akun
+      verificationRequested: false, // status permintaan verifikasi
     };
   },
   mounted() {
@@ -187,15 +192,13 @@ export default {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
-          console.log("Profile data:", response.data);
           const data = response.data;
-          // Karena serializer AlumniProfileUpdateSerializer sudah diperbarui,
-          // field username, name, dan verified sudah tersedia secara langsung
           this.form.username = data.username || "";
           this.form.name = data.name || "";
           this.form.angkatan = data.angkatan || "";
           this.form.pekerjaan = data.pekerjaan || "";
           this.verified = data.verified || false;
+          this.verificationRequested = data.verification_requested || false;
           if (data.fotoProfil) {
             this.previewImage = data.fotoProfil;
             this.originalImage = data.fotoProfil;
@@ -219,7 +222,6 @@ export default {
     updateProfile() {
       const token = localStorage.getItem("access_token");
       const formData = new FormData();
-      // Sertakan field username agar bisa diubah (backend akan memvalidasi keunikannya)
       formData.append("username", this.form.username);
       formData.append("name", this.form.name);
       formData.append("angkatan", this.form.angkatan);
@@ -234,7 +236,7 @@ export default {
             Authorization: `Bearer ${token}`,
           },
         })
-        .then((response) => {
+        .then(() => {
           Swal.fire("Berhasil", "Profil berhasil diperbarui!", "success");
           this.isEditing = false;
           this.loadProfile();
@@ -244,7 +246,6 @@ export default {
           Swal.fire("Error", "Terjadi kesalahan saat memperbarui profil.", "error");
         });
     },
-    // Modal konfirmasi edit profil
     confirmEdit() {
       this.showEditModal = true;
     },
@@ -259,7 +260,6 @@ export default {
       this.isEditing = false;
       this.loadProfile();
     },
-    // Fungsi untuk mengajukan verifikasi akun jika belum terverifikasi
     requestVerification() {
       const token = localStorage.getItem("access_token");
       Swal.fire({
@@ -275,8 +275,9 @@ export default {
             .post("/api/request-verified/", {}, {
               headers: { Authorization: `Bearer ${token}` }
             })
-            .then((response) => {
+            .then(() => {
               Swal.fire("Berhasil", "Permintaan verifikasi telah dikirim.", "success");
+              this.verificationRequested = true;
             })
             .catch((error) => {
               console.error("Gagal mengajukan verifikasi:", error);

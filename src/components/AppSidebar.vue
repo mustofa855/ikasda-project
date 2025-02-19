@@ -58,6 +58,14 @@
         </li>
         <li>
           <router-link
+            to="/direksi/user-verification"
+            :class="['block px-4 py-2 hover:bg-gray-700 transition rounded', isActive('/direksi/user-verification')]"
+          >
+            Verifikasi Alumni
+          </router-link>
+        </li>
+        <li>
+          <router-link
             to="/direksi/gallery-management"
             :class="['block px-4 py-2 hover:bg-gray-700 transition rounded', isActive('/direksi/gallery-management')]"
           >

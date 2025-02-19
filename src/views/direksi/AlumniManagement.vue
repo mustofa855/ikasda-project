@@ -5,10 +5,16 @@
     <!-- Action Bar: Search, Export, dan Pengelompokan -->
     <div class="flex flex-wrap justify-between items-center mb-4">
       <div class="flex items-center space-x-2">
-        <input v-model="searchQuery" type="text" placeholder="Cari alumni..."
-          class="border border-gray-300 rounded px-4 py-2 w-64 focus:outline-none focus:ring focus:border-blue-300" />
-        <button @click="exportToExcel"
-          class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition flex items-center">
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="Cari alumni..."
+          class="border border-gray-300 rounded px-4 py-2 w-64 focus:outline-none focus:ring focus:border-blue-300"
+        />
+        <button
+          @click="exportToExcel"
+          class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition flex items-center"
+        >
           <!-- Icon Export -->
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -23,8 +29,11 @@
           <option value="graduation_year">Angkatan</option>
           <option value="education">Pendidikan</option>
         </select>
-        <button @click="fetchGrouping" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-          :disabled="!groupingCriteria">
+        <button
+          @click="fetchGrouping"
+          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          :disabled="!groupingCriteria"
+        >
           Terapkan
         </button>
       </div>
@@ -63,12 +72,9 @@
               </td>
               <td class="py-2 px-4 border-b">{{ user.role }}</td>
               <td class="py-2 px-4 border-b text-center">
-                <span v-if="user.verified"
-                  class="inline-flex items-center gap-x-1 text-green-600 font-semibold whitespace-nowrap">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 16 16">
-                    <path fill="currentColor" fill-rule="evenodd"
-                      d="M13.488 3.43a.75.75 0 0 1 .081 1.058l-6 7a.75.75 0 0 1-1.1.042l-3.5-3.5A.75.75 0 0 1 4.03 6.97l2.928 2.927l5.473-6.385a.75.75 0 0 1 1.057-.081"
-                      clip-rule="evenodd" />
+                <span v-if="user.verified" class="inline-flex items-center gap-x-1 text-green-600 font-semibold whitespace-nowrap">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 1024 1024">
+                    <path fill="currentColor" d="M512 0C229.232 0 0 229.232 0 512c0 282.784 229.232 512 512 512c282.784 0 512-229.216 512-512C1024 229.232 794.784 0 512 0m0 961.008c-247.024 0-448-201.984-448-449.01c0-247.024 200.976-448 448-448s448 200.977 448 448s-200.976 449.01-448 449.01m204.336-636.352L415.935 626.944l-135.28-135.28c-12.496-12.496-32.752-12.496-45.264 0c-12.496 12.496-12.496 32.752 0 45.248l158.384 158.4c12.496 12.48 32.752 12.48 45.264 0c1.44-1.44 2.673-3.009 3.793-4.64l318.784-320.753c12.48-12.496 12.48-32.752 0-45.263c-12.512-12.496-32.768-12.496-45.28 0"/>
                   </svg>
                 </span>
                 <span v-else class="inline-flex items-center gap-x-1 text-red-600 font-semibold whitespace-nowrap">
@@ -88,11 +94,6 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L9 21H3v-6L16.732 3.732z" />
                   </svg>
-                </button>
-                <!-- Tombol Verifikasi -->
-                <button @click="verifyUser(user.id)"
-                  class="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition">
-                  Verifikasi
                 </button>
                 <!-- Tombol Reset Password -->
                 <button @click="openResetPasswordModal(user.id)"
@@ -121,18 +122,19 @@
       <div v-if="totalPages > 1" class="flex items-center justify-center mt-4 space-x-2">
         <button :disabled="currentPage === 1" @click="goToPreviousPage"
           class="px-3 py-1 bg-gray-300 text-gray-800 rounded disabled:opacity-50 hover:bg-gray-400 transition">
-          < </button>
-            <div class="flex space-x-1">
-              <button v-for="page in totalPages" :key="page" @click="currentPage = page"
-                :class="currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-800 hover:bg-gray-400'"
-                class="px-3 py-1 rounded transition">
-                {{ page }}
-              </button>
-            </div>
-            <button :disabled="currentPage === totalPages" @click="goToNextPage"
-              class="px-3 py-1 bg-gray-300 text-gray-800 rounded disabled:opacity-50 hover:bg-gray-400 transition">
-              >
-            </button>
+          &lt;
+        </button>
+        <div class="flex space-x-1">
+          <button v-for="page in totalPages" :key="page" @click="currentPage = page"
+            :class="currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-800 hover:bg-gray-400'"
+            class="px-3 py-1 rounded transition">
+            {{ page }}
+          </button>
+        </div>
+        <button :disabled="currentPage === totalPages" @click="goToNextPage"
+          class="px-3 py-1 bg-gray-300 text-gray-800 rounded disabled:opacity-50 hover:bg-gray-400 transition">
+          &gt;
+        </button>
       </div>
     </div>
 
@@ -194,8 +196,7 @@
           </div>
           <div class="mb-4">
             <label class="block text-gray-700">Angkatan</label>
-            <input v-model="editForm.graduation_year" type="number"
-              class="w-full border border-gray-300 rounded px-3 py-2" />
+            <input v-model="editForm.graduation_year" type="number" class="w-full border border-gray-300 rounded px-3 py-2" />
           </div>
           <div class="mb-4">
             <label class="block text-gray-700">Pendidikan</label>
@@ -225,15 +226,19 @@
     </div>
 
     <!-- Modal Reset Password -->
-    <div v-if="showResetPasswordModal"
-      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div v-if="showResetPasswordModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/3">
         <h2 class="text-2xl font-bold mb-4">Reset Password Alumni</h2>
         <form @submit.prevent="resetPassword">
           <div class="mb-4">
             <label class="block text-gray-700">Password Baru</label>
-            <input v-model="resetPasswordForm.newPassword" type="password"
-              class="w-full border border-gray-300 rounded px-3 py-2" placeholder="Masukkan password baru" required />
+            <input
+              v-model="resetPasswordForm.newPassword"
+              type="password"
+              class="w-full border border-gray-300 rounded px-3 py-2"
+              placeholder="Masukkan password baru"
+              required
+            />
           </div>
           <div class="flex justify-end">
             <button type="button" @click="closeResetPasswordModal"
@@ -328,34 +333,6 @@ export default {
           console.error("Error fetching users:", error);
         });
     },
-    verifyUser(userId) {
-      Swal.fire({
-        title: "Verifikasi Alumni",
-        text: "Apakah Anda yakin ingin memverifikasi alumni ini?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Ya, verifikasi!",
-        cancelButtonText: "Batal"
-      }).then(result => {
-        if (result.isConfirmed) {
-          axios.patch(
-            `http://127.0.0.1:8000/api/users/${userId}/`,
-            { verified: true },
-            { headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` } }
-          )
-            .then(response => {
-              Swal.fire("Berhasil", "Alumni telah diverifikasi.", "success");
-              this.fetchUsers();
-            })
-            .catch(error => {
-              Swal.fire("Gagal", "Terjadi kesalahan saat verifikasi.", "error");
-              console.error("Error verifying alumni:", error);
-            });
-        }
-      });
-    },
-
-
     deleteUser(userId) {
       Swal.fire({
         title: "Hapus Alumni",
@@ -370,7 +347,7 @@ export default {
             .delete(`http://127.0.0.1:8000/api/users/${userId}/`, {
               headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` }
             })
-            .then(response => {
+            .then(() => {
               Swal.fire("Berhasil", "Data alumni telah dihapus.", "success");
               this.fetchUsers();
             })
@@ -425,7 +402,7 @@ export default {
         .patch(`http://127.0.0.1:8000/api/users/${this.currentEditUser.id}/`, updatedData, {
           headers: { Authorization: `Bearer ${token}` }
         })
-        .then(response => {
+        .then(() => {
           Swal.fire("Berhasil", "Data alumni telah diperbarui.", "success");
           this.showEditModal = false;
           this.fetchUsers();
@@ -451,7 +428,7 @@ export default {
           { new_password: this.resetPasswordForm.newPassword },
           { headers: { Authorization: `Bearer ${token}` } }
         )
-        .then(response => {
+        .then(() => {
           Swal.fire("Berhasil", "Password berhasil direset.", "success");
           this.closeResetPasswordModal();
         })
@@ -470,12 +447,6 @@ export default {
       if (this.currentPage < this.totalPages) {
         this.currentPage++;
       }
-    },
-    goToFirstPage() {
-      this.currentPage = 1;
-    },
-    goToLastPage() {
-      this.currentPage = this.totalPages;
     },
     exportToExcel() {
       const exportData = this.userList.map(user => ({
