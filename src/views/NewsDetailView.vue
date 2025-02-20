@@ -18,7 +18,10 @@
     <div class="flex flex-wrap">
       <!-- Bagian kiri: Detail Berita -->
       <div class="w-full lg:w-2/3">
-        <div v-if="news" class="bg-white shadow rounded p-6">
+        <div v-if="isLoading" class="flex justify-center items-center h-64">
+          <div class="loader"></div>
+        </div>
+        <div v-else-if="news" class="bg-white shadow rounded p-6">
           <h1 class="text-3xl font-bold mb-2">{{ news.title }}</h1>
           <!-- Info Publish & Pembuat Berita -->
           <div class="flex items-center mb-4">
@@ -62,7 +65,7 @@
           </button>
         </div>
         <div v-else class="text-center text-gray-500">
-          Loading...
+          News not found.
         </div>
       </div>
 
@@ -114,6 +117,7 @@ export default {
     return {
       news: null,
       newsList: [],
+      isLoading: false
     };
   },
   computed: {
@@ -130,37 +134,58 @@ export default {
       return this.newsList.filter(item => item.id !== this.news.id);
     }
   },
-  mounted() {
-    const id = this.$route.params.id;
-    
-    // Fetch detail berita
-    axios
-      .get(`http://127.0.0.1:8000/api/news/${id}/`)
-      .then(response => {
-        this.news = response.data;
-      })
-      .catch(error => {
-        console.error("Error fetching news detail:", error);
-      });
-
-    // Fetch daftar berita untuk sidebar
-    axios
-      .get(`http://127.0.0.1:8000/api/news/`)
-      .then(response => {
-        this.newsList = response.data;
-      })
-      .catch(error => {
-        console.error("Error fetching news list:", error);
-      });
-  },
   methods: {
+    fetchNewsDetail(id) {
+      this.isLoading = true;
+      axios
+        .get(`http://127.0.0.1:8000/api/news/${id}/`)
+        .then(response => {
+          this.news = response.data;
+          this.isLoading = false;
+        })
+        .catch(error => {
+          console.error("Error fetching news detail:", error);
+          this.isLoading = false;
+        });
+    },
+    fetchNewsList() {
+      axios
+        .get(`http://127.0.0.1:8000/api/news/`)
+        .then(response => {
+          this.newsList = response.data;
+        })
+        .catch(error => {
+          console.error("Error fetching news list:", error);
+        });
+    },
     goBack() {
       this.$router.push("/news");
+    }
+  },
+  mounted() {
+    const id = this.$route.params.id;
+    this.fetchNewsDetail(id);
+    this.fetchNewsList();
+  },
+  watch: {
+    '$route.params.id'(newId) {
+      this.fetchNewsDetail(newId);
     }
   }
 };
 </script>
 
 <style scoped>
-/* Styling tambahan jika diperlukan */
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>

@@ -12,8 +12,20 @@
       />
     </div>
 
-    <!-- Tampilkan Alumni dalam Bentuk Card -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <!-- Jika user belum terverifikasi, tampilkan pesan -->
+    <div
+      v-if="!userVerified"
+      class="bg-yellow-100 border border-yellow-400 text-yellow-700 p-4 text-center mb-4"
+    >
+      Mohon maaf, halaman ini hanya bisa diakses oleh pengguna yang sudah terverifikasi.
+      Silakan ajukan verifikasi di profil.
+    </div>
+
+    <!-- Tampilkan Alumni dalam Bentuk Card hanya jika user terverifikasi -->
+    <div
+      v-if="userVerified"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+    >
       <div
         v-for="alumni in filteredAlumni"
         :key="alumni.id"
@@ -48,13 +60,19 @@
           </button>
         </div>
       </div>
-      <div v-if="filteredAlumni.length === 0" class="col-span-full text-center text-gray-500">
+      <div
+        v-if="filteredAlumni.length === 0"
+        class="col-span-full text-center text-gray-500"
+      >
         Tidak ada alumni untuk ditampilkan.
       </div>
     </div>
 
     <!-- Modal untuk Menampilkan Detail Alumni -->
-    <div v-if="isModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+    <div
+      v-if="isModalOpen"
+      class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50"
+    >
       <div class="bg-white p-6 rounded shadow-lg w-full sm:w-96">
         <h2 class="text-2xl font-semibold mb-4">Detail Alumni</h2>
         <div v-if="selectedAlumni">
@@ -68,12 +86,24 @@
           </div>
           <!-- Data Lengkap Alumni -->
           <div class="mb-4">
-            <p><strong>Nama:</strong> {{ selectedAlumni.first_name }} {{ selectedAlumni.last_name }}</p>
-            <p><strong>Angkatan:</strong> {{ selectedAlumni.profile ? selectedAlumni.profile.graduation_year : '-' }}</p>
+            <p>
+              <strong>Nama:</strong>
+              {{ selectedAlumni.first_name }} {{ selectedAlumni.last_name }}
+            </p>
+            <p>
+              <strong>Angkatan:</strong>
+              {{ selectedAlumni.profile ? selectedAlumni.profile.graduation_year : '-' }}
+            </p>
             <p><strong>Email:</strong> {{ selectedAlumni.email || '-' }}</p>
             <p><strong>Telepon:</strong> {{ selectedAlumni.phone || '-' }}</p>
-            <p><strong>Pekerjaan:</strong> {{ selectedAlumni.profile && selectedAlumni.profile.job ? selectedAlumni.profile.job : '-' }}</p>
-            <p><strong>Pendidikan:</strong> {{ selectedAlumni.profile && selectedAlumni.profile.education ? selectedAlumni.profile.education : '-' }}</p>
+            <p>
+              <strong>Pekerjaan:</strong>
+              {{ selectedAlumni.profile && selectedAlumni.profile.job ? selectedAlumni.profile.job : '-' }}
+            </p>
+            <p>
+              <strong>Pendidikan:</strong>
+              {{ selectedAlumni.profile && selectedAlumni.profile.education ? selectedAlumni.profile.education : '-' }}
+            </p>
           </div>
           <!-- Tombol Tutup Modal -->
           <div class="text-center">
@@ -102,6 +132,7 @@ export default {
       searchQuery: "",
       isModalOpen: false,
       selectedAlumni: null,
+      userVerified: false // Default: belum terverifikasi
     };
   },
   computed: {
@@ -113,7 +144,15 @@ export default {
     },
   },
   mounted() {
-    this.fetchUsers();
+    // Misalnya, kita simpan data user saat login di localStorage dengan key "user_data"
+    const userData = JSON.parse(localStorage.getItem("user_data") || "{}");
+    // Pastikan field "verified" ada di data user
+    this.userVerified = userData.verified || false;
+
+    // Hanya ambil data alumni jika user sudah terverifikasi
+    if (this.userVerified) {
+      this.fetchUsers();
+    }
   },
   methods: {
     fetchUsers() {
@@ -123,7 +162,6 @@ export default {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
-          console.log("Response data:", response.data);
           // Jika API menggunakan paginasi, data mungkin berada di response.data.results
           if (response.data.results) {
             this.userList = response.data.results;

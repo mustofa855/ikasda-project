@@ -268,7 +268,7 @@ export default {
       userList: [],
       searchQuery: "",
       currentPage: 1,
-      itemsPerPage: 5,
+      itemsPerPage: 7,
       showEditModal: false,
       currentEditUser: null,
       editForm: {
