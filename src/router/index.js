@@ -28,7 +28,9 @@ import ContentManagement from '@/views/direksi/ContentManagement.vue';
 import FinancialReports from '@/views/direksi/FinancialReports.vue';
 import StrategicDecision from '@/views/direksi/StrategicDecision.vue';
 import StrategicReports from '@/views/direksi/StrategicReports.vue';
+import IKASDAJabatanView from '@/views/direksi/IKASDAJabatanView.vue';
 import GalleryManagement from '@/views/direksi/GalleryManagement.vue';
+
 
 import DashboardBpa from '@/views/bpa/DashboardBpa.vue';
 import ActivityAudit from '@/views/bpa/ActivityAudit.vue';
@@ -111,6 +113,7 @@ const routes = [
   { path: '/direksi/financial-reports', component: FinancialReports, meta: { requiresAuth:true ,role: 'direksi' , layout: 'direksi' } },
   { path: '/direksi/strategic-decision', component: StrategicDecision, meta: { requiresAuth:true ,role: 'direksi' , layout: 'direksi' } },
   { path: '/direksi/strategic-reports', component: StrategicReports, meta: { requiresAuth:true ,role: 'direksi' , layout: 'direksi' } },
+  { path: '/direksi/ikasda-jabatan', component: IKASDAJabatanView, meta: { requiresAuth:true ,role: 'direksi' , layout: 'direksi' } },
 
   // Halaman bpa
   { path: '/bpa/', component: DashboardBpa, meta: { requiresAuth:true , role: 'bpa', layout: 'bpa' } },

@@ -41,37 +41,37 @@
 
     <!-- Tampilan Daftar Alumni (jika tidak sedang melihat hasil grouping) -->
     <div v-if="!groupingView">
-      <div v-if="paginatedUsers && paginatedUsers.length">
-        <table class="min-w-full bg-white border border-gray-200">
-          <thead>
-            <tr class="bg-gray-100">
-              <th class="py-2 px-4 border-b text-left">Username</th>
-              <th class="py-2 px-4 border-b text-left">Nama Lengkap</th>
-              <th class="py-2 px-4 border-b text-left">Email</th>
-              <th class="py-2 px-4 border-b text-left">Nomor Telepon</th>
-              <th class="py-2 px-4 border-b text-left">Angkatan</th>
-              <th class="py-2 px-4 border-b text-left">Pendidikan</th>
-              <th class="py-2 px-4 border-b text-left">Role</th>
-              <th class="py-2 px-4 border-b text-left">Status Verifikasi</th>
-              <th class="py-2 px-4 border-b text-left">Aksi</th>
+      <div v-if="paginatedUsers && paginatedUsers.length" class="overflow-hidden rounded-lg shadow">
+        <table class="min-w-full bg-white border border-gray-200 rounded shadow">
+          <thead class="bg-blue-500 text-white">
+            <tr>
+              <th class="px-6 py-3 text-left text-sm font-medium uppercase">Username</th>
+              <th class="px-6 py-3 text-left text-sm font-medium uppercase">Nama Lengkap</th>
+              <th class="px-6 py-3 text-left text-sm font-medium uppercase">Email</th>
+              <th class="px-6 py-3 text-left text-sm font-medium uppercase">Nomor Telepon</th>
+              <th class="px-6 py-3 text-left text-sm font-medium uppercase">Angkatan</th>
+              <th class="px-6 py-3 text-left text-sm font-medium uppercase">Pendidikan</th>
+              <th class="px-6 py-3 text-left text-sm font-medium uppercase">Role</th>
+              <th class="px-6 py-3 text-left text-sm font-medium uppercase">Status Verifikasi</th>
+              <th class="px-6 py-3 text-left text-sm font-medium uppercase">Aksi</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="divide-y divide-gray-200">
             <tr v-for="user in paginatedUsers" :key="user.id" class="hover:bg-gray-50">
-              <td class="py-2 px-4 border-b">{{ user.username }}</td>
-              <td class="py-2 px-4 border-b">
+              <td class="px-6 py-2 text-sm text-gray-800 ">{{ user.username }}</td>
+              <td class="px-6 py-2 text-sm text-gray-800 ">
                 {{ user.first_name }} {{ user.last_name }}
               </td>
-              <td class="py-2 px-4 border-b">{{ user.email }}</td>
-              <td class="py-2 px-4 border-b">{{ user.phone }}</td>
-              <td class="py-2 px-4 border-b">
+              <td class="px-6 py-2 text-sm text-gray-800 ">{{ user.email }}</td>
+              <td class="px-6 py-2 text-sm text-gray-800 ">{{ user.phone }}</td>
+              <td class="px-6 py-2 text-sm text-gray-800 ">
                 {{ user.profile ? user.profile.graduation_year : '-' }}
               </td>
-              <td class="py-2 px-4 border-b">
+              <td class="px-6 py-2 text-sm text-gray-800 ">
                 {{ user.profile ? user.profile.education : '-' }}
               </td>
-              <td class="py-2 px-4 border-b">{{ user.role }}</td>
-              <td class="py-2 px-4 border-b text-center">
+              <td class="px-6 py-2 text-sm text-gray-800 ">{{ user.role }}</td>
+              <td class="px-6 py-2 text-sm text-gray-800 text-center">
                 <span v-if="user.verified" class="inline-flex items-center gap-x-1 text-green-600 font-semibold whitespace-nowrap">
                   <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 1024 1024">
                     <path fill="currentColor" d="M512 0C229.232 0 0 229.232 0 512c0 282.784 229.232 512 512 512c282.784 0 512-229.216 512-512C1024 229.232 794.784 0 512 0m0 961.008c-247.024 0-448-201.984-448-449.01c0-247.024 200.976-448 448-448s448 200.977 448 448s-200.976 449.01-448 449.01m204.336-636.352L415.935 626.944l-135.28-135.28c-12.496-12.496-32.752-12.496-45.264 0c-12.496 12.496-12.496 32.752 0 45.248l158.384 158.4c12.496 12.48 32.752 12.48 45.264 0c1.44-1.44 2.673-3.009 3.793-4.64l318.784-320.753c12.48-12.496 12.48-32.752 0-45.263c-12.512-12.496-32.768-12.496-45.28 0"/>
@@ -144,25 +144,25 @@
         class="mb-4 bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition">
         Kembali ke Daftar Alumni
       </button>
-      <div v-for="group in groupingData" :key="groupKey(group)" class="mb-6 border p-4 rounded">
+      <div v-for="group in groupingData" :key="groupKey(group)" class="mb-6 border p-4 overflow-hidden rounded-lg shadow" >
         <h2 class="text-xl font-bold mb-2">
           {{ groupTitle(group) }} (Total: {{ group.total }})
         </h2>
-        <table class="min-w-full bg-white border border-gray-200">
-          <thead>
-            <tr class="bg-gray-100">
-              <th class="py-2 px-4 border-b text-left">Username</th>
-              <th class="py-2 px-4 border-b text-left">Nama Lengkap</th>
-              <th class="py-2 px-4 border-b text-left">Email</th>
-              <th class="py-2 px-4 border-b text-left">Nomor Telepon</th>
+        <table class="min-w-full bg-white border border-gray-200 rounded shadow">
+          <thead class="bg-blue-500 text-white">
+            <tr>
+              <th class="px-6 py-3 text-left text-sm font-medium uppercase">Username</th>
+              <th class="px-6 py-3 text-left text-sm font-medium uppercase">Nama Lengkap</th>
+              <th class="px-6 py-3 text-left text-sm font-medium uppercase">Email</th>
+              <th class="px-6 py-3 text-left text-sm font-medium uppercase">Nomor Telepon</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="alumni in group.alumni" :key="alumni.user.id" class="hover:bg-gray-50">
-              <td class="py-2 px-4 border-b">{{ alumni.user.username }}</td>
-              <td class="py-2 px-4 border-b">{{ alumni.user.first_name }} {{ alumni.user.last_name }}</td>
-              <td class="py-2 px-4 border-b">{{ alumni.user.email }}</td>
-              <td class="py-2 px-4 border-b">{{ alumni.user.phone }}</td>
+              <td class="px-6 py-3 text-sm text-gray-800">{{ alumni.user.username }}</td>
+              <td class="px-6 py-3 text-sm text-gray-800">{{ alumni.user.first_name }} {{ alumni.user.last_name }}</td>
+              <td class="px-6 py-3 text-sm text-gray-800">{{ alumni.user.email }}</td>
+              <td class="px-6 py-3 text-sm text-gray-800">{{ alumni.user.phone }}</td>
             </tr>
           </tbody>
         </table>
@@ -506,19 +506,5 @@ export default {
 </script>
 
 <style scoped>
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
 
-th,
-td {
-  border: 1px solid #e5e7eb;
-  padding: 0.75rem;
-}
-
-th {
-  background-color: #f3f4f6;
-  font-weight: 600;
-}
 </style>

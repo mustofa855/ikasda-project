@@ -104,6 +104,14 @@
             Laporan Strategis
           </router-link>
         </li>
+        <li>
+          <router-link
+            to="/direksi/ikasda-jabatan"
+            :class="['block px-4 py-2 hover:bg-gray-700 transition rounded', isActive('/direksi/strategic-reports')]"
+          >
+            Pengubahan Jabatan
+          </router-link>
+        </li>
       </ul>
     </div>
     <!-- (Bagian bawah logout sudah dipindahkan ke dropdown profil) -->

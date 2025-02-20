@@ -17,14 +17,14 @@
         </button>
       </div>
       <!-- Tabel Daftar Pengguna yang Menunggu Verifikasi -->
-      <table class="min-w-full bg-white border border-gray-200">
-        <thead>
-          <tr class="bg-gray-100">
-            <th class="py-2 px-4 border-b text-left">Username</th>
-            <th class="py-2 px-4 border-b text-left">Nama Lengkap</th>
-            <th class="py-2 px-4 border-b text-left">Email</th>
-            <th class="py-2 px-4 border-b text-left">Status</th>
-            <th class="py-2 px-4 border-b text-left">Aksi</th>
+      <table class="min-w-full bg-white border border-gray-200 rounded shadow">
+        <thead class="bg-blue-500 text-white">
+          <tr>
+            <th class="px-6 py-3 text-left text-sm font-medium uppercase">Username</th>
+            <th class="px-6 py-3 text-left text-sm font-medium uppercase">Nama Lengkap</th>
+            <th class="px-6 py-3 text-left text-sm font-medium uppercase">Email</th>
+            <th class="px-6 py-3 text-center text-sm font-medium uppercase">Status</th>
+            <th class="px-6 py-3 text-left text-sm font-medium uppercase">Aksi</th>
           </tr>
         </thead>
         <tbody>
@@ -33,12 +33,12 @@
             :key="user.id"
             class="hover:bg-gray-50"
           >
-            <td class="py-2 px-4 border-b">{{ user.username }}</td>
-            <td class="py-2 px-4 border-b">
+            <td class="px-6 py-3 text-sm text-gray-800">{{ user.username }}</td>
+            <td class="px-6 py-3 text-sm text-gray-800">
               {{ user.first_name }} {{ user.last_name }}
             </td>
-            <td class="py-2 px-4 border-b">{{ user.email }}</td>
-            <td class="py-2 px-4 border-b text-center">
+            <td class="px-6 py-3 text-sm text-gray-800">{{ user.email }}</td>
+            <td class="px-6 py-3 text-sm text-gray-800 text-center">
               <span class="inline-flex items-center gap-x-1 text-red-600 font-semibold whitespace-nowrap">
                 <!-- Ikon belum diverifikasi (tanda silang) -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24">
@@ -47,7 +47,7 @@
                 </svg>
               </span>
             </td>
-            <td class="py-2 px-4 border-b">
+            <td class="px-6 py-3 text-sm text-gray-800">
               <!-- Tampilkan tombol verifikasi jika pengguna belum diverifikasi -->
               <button
                 @click="verifyUser(user.id)"
@@ -161,20 +161,6 @@
   </script>
   
   <style scoped>
-  table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-  th,
-  td {
-    border: 1px solid #e5e7eb;
-    padding: 0.75rem;
-  }
-  
-  th {
-    background-color: #f3f4f6;
-    font-weight: 600;
-  }
+ 
   </style>
   
