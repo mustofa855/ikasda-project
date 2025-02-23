@@ -7,8 +7,9 @@ import VueApexCharts from "vue3-apexcharts"
 import axios from 'axios'
 import Swal from "sweetalert2";
 
+// Menggunakan import.meta.env untuk mengakses variabel lingkungan pada Vite
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 
-axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
 const app = createApp(App)
 
 app.use(router)
@@ -31,11 +32,8 @@ axios.interceptors.response.use(
         }).then(() => {
           // Hapus token dari localStorage
           localStorage.removeItem("access_token");
-          // Redirect ke halaman login (atau halaman lain sesuai kebutuhan)
-          // Jika menggunakan vue-router:
+          // Redirect ke halaman login
           router.push("/login");
-          // Atau jika tidak menggunakan vue-router, bisa menggunakan:
-          // window.location.href = "/login";
         });
       }
       return Promise.reject(error);

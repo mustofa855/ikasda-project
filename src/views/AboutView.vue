@@ -35,107 +35,33 @@
       </div>
     </section>
 
-    <!-- Struktur Direksi -->
+    <!-- Struktur Direksi Section -->
     <section class="py-16 bg-gray-50 text-center">
       <div class="container mx-auto px-4">
         <h2 class="text-3xl font-semibold mb-6">Struktur Direksi</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Ketua</h3>
-            <p class="text-gray-600">Rifky Nawawi</p>
+          <div v-for="item in direksi" :key="item.id" class="bg-white shadow rounded-lg p-6">
+            <h3 class="text-xl font-bold mb-2">{{ item.jabatan }}</h3>
+            <p class="text-gray-600">{{ item.nama }}</p>
           </div>
-          <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Wakil Ketua</h3>
-            <p class="text-gray-600">R. Manaruzzaman</p>
-          </div>
-          <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Sekretaris 1</h3>
-            <p class="text-gray-600">Wisnu Wiliyandi</p>
-          </div>
-          <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Sekretaris 2</h3>
-            <p class="text-gray-600">Puteri Shabrina</p>
-          </div>
-          <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Bendahara 1</h3>
-            <p class="text-gray-600">Hamidah Supriani</p>
-          </div>
-          <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Bendahara 2</h3>
-            <p class="text-gray-600">Mutiara Ananda</p>
-          </div>
-          <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Bid. Seni Budaya</h3>
-            <p class="text-gray-600">Riyan Richman</p>
-          </div>
-          <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Bid. Kaderisasi & Pengembangan SDM</h3>
-            <p class="text-gray-600">Fahmy Fauzi</p>
-          </div>
-          <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Bid. Ekonomi Kreatif</h3>
-            <p class="text-gray-600">Taufik Hidayat</p>
-          </div>
-          <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Bid. Sosial Masyarakat Strategis</h3>
-            <p class="text-gray-600">Marsha Anadia</p>
-          </div>
-          <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Bid. Olahraga</h3>
-            <p class="text-gray-600">Dicky Firmansyah</p>
-          </div>
-          <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Bid. Hubungan Eksternal</h3>
-            <p class="text-gray-600">Iqbal Haris</p>
-          </div>
-          <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Bid. Lingkungan Hidup</h3>
-            <p class="text-gray-600">Mayang Destiani</p>
-          </div>
-          <div class="bg-white shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Bid. Media Kreatif</h3>
-            <p class="text-gray-600">Muhammad Najib</p>
+          <div v-if="direksi.length === 0" class="w-full">
+            <p class="text-gray-600">Data Direksi belum tersedia.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Struktur BPA -->
+    <!-- Struktur BPA Section -->
     <section class="py-16 bg-white text-center">
       <div class="container mx-auto px-4">
         <h2 class="text-3xl font-semibold mb-6">Badan Pengawas Alumni (BPA)</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          <div class="bg-gray-50 shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Ketua BPA</h3>
-            <p class="text-gray-600">Mustofa Firdaus</p>
+          <div v-for="item in bpa" :key="item.id" class="bg-gray-50 shadow rounded-lg p-6">
+            <h3 class="text-xl font-bold mb-2">{{ item.jabatan }}</h3>
+            <p class="text-gray-600">{{ item.nama }}</p>
           </div>
-          <div class="bg-gray-50 shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Wakil Ketua BPA</h3>
-            <p class="text-gray-600">Fazril Maufi</p>
-          </div>
-          <div class="bg-gray-50 shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Sekretaris BPA</h3>
-            <p class="text-gray-600">Vania Rosalind</p>
-          </div>
-          <div class="bg-gray-50 shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Peng. Sekretaris dan Bendahara</h3>
-            <p class="text-gray-600">Nenda Rizki</p>
-          </div>
-          <div class="bg-gray-50 shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Peng. Sosial Politik</h3>
-            <p class="text-gray-600">M. Fadhillah Kurnia</p>
-          </div>
-          <div class="bg-gray-50 shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Peng. Komunikasi dan Informasi</h3>
-            <p class="text-gray-600">Fauziyah R. Ulya</p>
-          </div>
-          <div class="bg-gray-50 shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Peng. Ketua Angkatan</h3>
-            <p class="text-gray-600">Ramadhan Aryo</p>
-          </div>
-          <div class="bg-gray-50 shadow rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-2">Peng. Keorganisasian</h3>
-            <p class="text-gray-600">Hani Mahardiani</p>
+          <div v-if="bpa.length === 0" class="w-full">
+            <p class="text-gray-600">Data BPA belum tersedia.</p>
           </div>
         </div>
       </div>
@@ -151,9 +77,70 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
 const currentYear = ref(new Date().getFullYear());
+const direksi = ref([]);
+const bpa = ref([]);
+
+// Definisikan urutan hierarki untuk Direksi
+const direksiOrder = [
+  "Ketua",
+  "Wakil Ketua",
+  "Sekretaris 1",
+  "Sekretaris 2",
+  "Bendahara 1",
+  "Bendahara 2",
+  "Bid. Seni Budaya",
+  "Bid. Kaderisasi & Pengembangan SDM",
+  "Bid. Ekonomi Kreatif",
+  "Bid. Sosial Masyarakat Strategis",
+  "Bid. Olahraga",
+  "Bid. Hubungan Eksternal",
+  "Bid. Lingkungan Hidup",
+  "Bid. Media Kreatif"
+];
+
+// Definisikan urutan hierarki untuk BPA
+const bpaOrder = [
+  "Ketua BPA",
+  "Wakil Ketua BPA",
+  "Sekretaris BPA",
+  "Peng. Sekretaris dan Bendahara",
+  "Peng. Sosial Politik",
+  "Peng. Komunikasi dan Informasi",
+  "Peng. Ketua Angkatan",
+  "Peng. Keorganisasian"
+];
+
+const fetchData = async () => {
+  try {
+    // Ambil data Direksi
+    const direksiRes = await axios.get('/api/direksi/');
+    direksi.value = direksiRes.data.sort((a, b) => {
+      const indexA = direksiOrder.indexOf(a.jabatan);
+      const indexB = direksiOrder.indexOf(b.jabatan);
+      return (indexA !== -1 ? indexA : 999) - (indexB !== -1 ? indexB : 999);
+    });
+
+    // Ambil data BPA
+    const bpaRes = await axios.get('/api/bpa/');
+    bpa.value = bpaRes.data.sort((a, b) => {
+      const indexA = bpaOrder.indexOf(a.jabatan);
+      const indexB = bpaOrder.indexOf(b.jabatan);
+      return (indexA !== -1 ? indexA : 999) - (indexB !== -1 ? indexB : 999);
+    });
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
+
+onMounted(() => {
+  fetchData();
+});
 </script>
+
 
 <style>
 /* Tambahkan styling tambahan jika diperlukan */
